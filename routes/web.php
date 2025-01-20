@@ -1,4 +1,7 @@
 <?php
+use App\Http\Controllers\Admin\Categories\CategoryController;
+use App\Http\Controllers\Admin\Categories\EndCategoryController;
+use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\EcommerceDashboard;
@@ -48,3 +51,9 @@ Route::get('/app/ecommerce/settings/checkout', [EcommerceSettingsCheckout::class
 Route::get('/app/ecommerce/settings/shipping', [EcommerceSettingsShipping::class, 'index'])->name('app-ecommerce-settings-shipping');
 Route::get('/app/ecommerce/settings/locations', [EcommerceSettingsLocations::class, 'index'])->name('app-ecommerce-settings-locations');
 Route::get('/app/ecommerce/settings/notifications', [EcommerceSettingsNotifications::class, 'index'])->name('app-ecommerce-settings-notifications');
+
+
+
+Route::resource('categories', CategoryController::class);
+Route::resource('sub-categories', SubCategoryController::class);
+Route::resource('end-categories', EndCategoryController::class);

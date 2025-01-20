@@ -22,11 +22,22 @@
           "url": "app/ecommerce/product/add",
           "name": "Add Product",
           "slug": "app-ecommerce-product-add"
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "slug": "app-ecommerce-categories",
+      "submenu": [
+        {
+          "url": "categories",
+          "name": "Category",
+          "slug": "app-ecommerce-category"
         },
         {
-          "url": "app/ecommerce/product/category",
-          "name": "Category List",
-          "slug": "app-ecommerce-product-category"
+          "url": "sub-categories",
+          "name": "Sub Category",
+          "slug": "app-ecommerce-sub-category"
         }
       ]
     },
