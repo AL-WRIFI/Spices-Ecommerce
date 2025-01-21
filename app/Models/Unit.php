@@ -6,16 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SubCategory extends Model
+class Unit extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','slug','category_id','description','image','status'];
 
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
-    }
+    protected $fillable = ['name'];
 
     public function products(): HasMany
     {
