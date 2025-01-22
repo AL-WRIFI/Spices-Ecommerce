@@ -11,9 +11,15 @@ use Illuminate\Support\Str;
 
 class SubCategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $subCategories = SubCategory::all();
+        
+        if($request->wantsJson()) {
+            return response()->json([
+                'sub_categories' => $subCategories
+            ], 200);
+        }
         return view('admin.categories.subCategory.index', compact('subCategories'));
     }
 

@@ -10,9 +10,15 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $categories = Category::all();
+        
+        if($request->wantsJson()) {
+            return response()->json([
+                'categories' => $categories,
+            ], 200);
+        }
         return view('admin.categories.category.index', compact('categories'));
     }
 
