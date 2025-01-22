@@ -11,7 +11,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Support\Services\Otp\OtpService;
 use App\Support\Traits\Api\ApiResponseTrait;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 
 
 class AuthController extends Controller
@@ -23,22 +23,32 @@ class AuthController extends Controller
     {
         $this->otpService = $otpService;
     }
-    public function login(LoginRequest $request, SendOtpAction $sendOtpAction)
+
+    public function login(LoginRequest $request)
     {
         $data = $request->validated();
-        $user = User::where('phone', $data['phone']);
-        if(!$user) return $this->notFoundResponse(msg:__('User is not found with this phone ! Please Sign up'));
-        if($user->status != "Active") return $this->errorResponse(msg:__('User is not active'), code:401);
+        $user = User::where('phone', $data['phone'])->first();
 
-        
+        if (!$user) {
+            return $this->notFoundResponse(msg: __('User is not found with this phone! Please sign up'));
+        }
+
+        if (!Hash::check($data['password'], $user->password)) {
+            return $this->errorResponse(msg: __('Invalid credentials'), code: 401);
+        }
+
+        if ($user->status != 1) {
+            return $this->errorResponse(msg: __('User is not active'), code: 401);
+        }
+
         // $sendOtpAction->handle(model:$user, OTPType:OTPType::LOGIN, expiredMinutes:5);
 
-        // return $this->successResponse(msg:__('OTP Send Successfully'));
+       // return $this->successResponse(msg:__('OTP Send Successfully'));
 
-        return $this->successResponse(data:[
+        return $this->successResponse(data: [
             'token' => $user->createToken('user_token')->plainTextToken,
             'user' => $user,
-        ], msg:__('user verified'));
+        ], msg: __('User logged in successfully'));
     }
 
     public function register(RegisterRequest $request)

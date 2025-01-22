@@ -38,7 +38,7 @@ Route::prefix('/user')->group(function () {
 
     Route::controller(FavoriteController::class)->prefix('favorites')->middleware('auth:sanctum')->group(function(){
         Route::get('/','index');
-        Route::post('/favorites/add','addFavorite');
-        Route::delete('/favorites/remove/{favoriteId}','removeFavorite');
+        Route::post('/','addFavorite');
+        Route::delete('/{favoriteId}','removeFavorite');
     });
 });
