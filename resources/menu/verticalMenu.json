@@ -27,10 +27,10 @@
     },
     {
       "name": "Categories",
-      "slug": "app-ecommerce-categories",
+      "slug": "app-ecommerce-order",
       "submenu": [
         {
-          "url": "categories",
+          "url": "/categories",
           "name": "Category",
           "slug": "app-ecommerce-category"
         },

@@ -89,7 +89,6 @@
   </div>
 </div>
 
-<!-- Product List Table -->
 <div class="card">
   <div class="card-header">
     <h5 class="card-title">Filter</h5>
@@ -157,7 +156,7 @@
             </td>
             <td>
               <span class="text-truncate">
-                @if ($product->stock == 'In_Stock')
+                @if ($product->stock == 1)
                   <label class="switch switch-primary switch-sm">
                     <input type="checkbox" class="switch-input" checked>
                     <span class="switch-toggle-slider">
@@ -180,16 +179,14 @@
             <td>{{ $product->quantity }}</td>
             <td>
               @if ($product->status == 1)
-                <span class="badge bg-label-warning">Scheduled</span>
-              @elseif ($product->status == 2)
-                <span class="badge bg-label-success">Publish</span>
-              @elseif ($product->status == 3)
+                <span class="badge bg-label-success">Active</span>
+              @elseif ($product->status == 0)
                 <span class="badge bg-label-danger">Inactive</span>
               @endif
             </td>
             <td>
               <div class="d-inline-block text-nowrap">
-                <button class="btn btn-sm btn-icon btn-text-secondary rounded-pill waves-effect waves-light"><i class="ti ti-edit ti-md"></i></button>
+                <button class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light"><i class="ti ti-edit" onclick="window.location='{{ route('products.edit', $product->id) }}'"></i></button>
                 <button class="btn btn-sm btn-icon btn-text-secondary rounded-pill waves-effect waves-light dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-md"></i></button>
                 <div class="dropdown-menu dropdown-menu-end m-0">
                   <a href="javascript:0;" class="dropdown-item">View</a>

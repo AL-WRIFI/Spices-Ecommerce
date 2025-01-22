@@ -77,7 +77,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        return view('admin.products.show', compact('product'));
     }
 
 
@@ -85,18 +85,17 @@ class ProductController extends Controller
     {
         $subCategories = SubCategory::all();
         $units = Unit::all();
-        return view('products.edit', compact('product', 'subCategories', 'units'));
+        return view('admin.products.edit', compact('product', 'subCategories', 'units'));
     }
 
     public function update(Request $request, Product $product)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:products,slug,' . $product->id,
             'price' => 'required|numeric',
             'sale_price' => 'nullable|numeric',
             'sub_category_id' => 'required|exists:sub_categories,id',
-            'image_url' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif',
             'summary' => 'nullable|string',
             'description' => 'nullable|string',
             'unit_id' => 'required|exists:units,id',
@@ -105,7 +104,31 @@ class ProductController extends Controller
             'status' => 'boolean',
         ]);
 
-        $product->update($request->all());
+        $data = $request->only([
+            'name',
+            'price',
+            'sale_price',
+            'sub_category_id',
+            'summary',
+            'description',
+            'unit_id',
+            'quantity',
+            'stock',
+            'status',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($product->image) {
+                $oldImagePath = str_replace('/storage', 'public', $product->image_url);
+                Storage::delete($oldImagePath);
+            }
+    
+            $path = $request->file('image')->store('images', 'public');
+            $url = Storage::url($path);
+            $data['image_url'] = $url;
+        }
+
+        $product->update(array_merge($data, ['slug' => Str::slug($request->name)]));
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
