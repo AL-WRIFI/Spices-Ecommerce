@@ -3,11 +3,10 @@
  */
 'use strict';
 
-//Javascript to handle the e-commerce product add page
+// Javascript to handle the e-commerce product add page
 
 (function () {
   // Comment editor
-
   const commentEditor = document.querySelector('.comment-editor');
 
   if (commentEditor) {
@@ -21,30 +20,24 @@
   }
 
   // previewTemplate: Updated Dropzone default previewTemplate
-
-  // ! Don't change it unless you really know what you are doing
-
   const previewTemplate = `<div class="dz-preview dz-file-preview">
-<div class="dz-details">
-  <div class="dz-thumbnail">
-    <img data-dz-thumbnail>
-    <span class="dz-nopreview">No preview</span>
-    <div class="dz-success-mark"></div>
-    <div class="dz-error-mark"></div>
-    <div class="dz-error-message"><span data-dz-errormessage></span></div>
-    <div class="progress">
-      <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+    <div class="dz-details">
+      <div class="dz-thumbnail">
+        <img data-dz-thumbnail>
+        <span class="dz-nopreview">No preview</span>
+        <div class="dz-success-mark"></div>
+        <div class="dz-error-mark"></div>
+        <div class="dz-error-message"><span data-dz-errormessage></span></div>
+        <div class="progress">
+          <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+        </div>
+      </div>
+      <div class="dz-filename" data-dz-name></div>
+      <div class="dz-size" data-dz-size></div>
     </div>
-  </div>
-  <div class="dz-filename" data-dz-name></div>
-  <div class="dz-size" data-dz-size></div>
-</div>
-</div>`;
-
-  // ? Start your code from here
+  </div>`;
 
   // Basic Dropzone
-
   const dropzoneBasic = document.querySelector('#dropzone-basic');
   if (dropzoneBasic) {
     const myDropzone = new Dropzone(dropzoneBasic, {
@@ -58,27 +51,22 @@
   }
 
   // Basic Tags
-
   const tagifyBasicEl = document.querySelector('#ecommerce-product-tags');
-  const TagifyBasic = new Tagify(tagifyBasicEl);
+  if (tagifyBasicEl) {
+    const TagifyBasic = new Tagify(tagifyBasicEl);
+  }
 
   // Flatpickr
-
-  // Datepicker
-  const date = new Date();
-
   const productDate = document.querySelector('.product-date');
-
   if (productDate) {
     productDate.flatpickr({
       monthSelectorType: 'static',
-      defaultDate: date
+      defaultDate: new Date()
     });
   }
 })();
 
-//Jquery to handle the e-commerce product add page
-
+// Jquery to handle the e-commerce product add page
 $(function () {
   // Select2
   var select2 = $('.select2');
@@ -95,9 +83,6 @@ $(function () {
   var formRepeater = $('.form-repeater');
 
   // Form Repeater
-  // ! Using jQuery each loop to add dynamic id and class for inputs. You may need to improve it based on form fields.
-  // -----------------------------------------------------------------------------------------------------------------
-
   if (formRepeater.length) {
     var row = 2;
     var col = 1;

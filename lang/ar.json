@@ -172,5 +172,11 @@
   "Components": "المكونات",
   "Forms & Tables": "النماذج والجداول",
   "Charts & Maps": "الرسوم البيانية والخرائط",
-  "Tabler": "طاولة"
+  "Tabler": "طاولة",
+
+  "Sub Category" : "الفئة الفرعية",
+  "Create Sub Category" : "انشاء فئة الفرعية",
+  "Edit Sub Category" : "تعديل الفئة الفرعية",
+  "Add Sub Category" : "فئة فرعية جديدة"
+
 }

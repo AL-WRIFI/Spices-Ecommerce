@@ -56,21 +56,17 @@ class CategoryController extends Controller
     
         $data = $request->only(['name', 'description']);
     
-        // Update the image if a new one is uploaded
         if ($request->hasFile('image')) {
-            // Delete the old image if it exists
             if ($category->image) {
                 $oldImagePath = str_replace('/storage', 'public', $category->image);
                 Storage::delete($oldImagePath);
             }
     
-            // Store the new image
             $path = $request->file('image')->store('images', 'public');
             $url = Storage::url($path);
             $data['image'] = $url;
         }
     
-        // Update the category
         $category->update(array_merge($data, ['slug' => Str::slug($data['name'])]));
     
         return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
