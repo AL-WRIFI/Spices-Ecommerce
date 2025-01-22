@@ -3,8 +3,9 @@
 use App\Http\Controllers\Admin\Categories\CategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\FavoriteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,13 @@ Route::prefix('/user')->group(function () {
         Route::put('/cart/update/{itemId}', [CartController::class, 'updateItem']);
         Route::delete('/cart/remove/{itemId}', [CartController::class, 'removeItem']);
         Route::delete('/cart/clear', [CartController::class, 'clearCart']);
+    });
+
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/favorites', [FavoriteController::class, 'index']);
+        Route::post('/favorites/add', [FavoriteController::class, 'addFavorite']);
+        Route::delete('/favorites/remove/{favoriteId}', [FavoriteController::class, 'removeFavorite']);
     });
 });
 
