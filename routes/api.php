@@ -21,23 +21,24 @@ Route::get('sub-categories', [SubCategoryController::class ,'index']);
 
 Route::prefix('/user')->group(function () {
     
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/verifyOtp', [AuthController::class, 'verifyOtp']);
-
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/cart', [CartController::class, 'index']);
-        Route::post('/cart/add', [CartController::class, 'addItem']);
-        Route::put('/cart/update/{itemId}', [CartController::class, 'updateItem']);
-        Route::delete('/cart/remove/{itemId}', [CartController::class, 'removeItem']);
-        Route::delete('/cart/clear', [CartController::class, 'clearCart']);
+    Route::controller(AuthController::class)->prefix('auth')->group(function(){
+        Route::post('/register', 'register');
+        Route::post('/login', 'login');
+        Route::post('/verifyOtp', 'verifyOtp');
     });
 
+    
+    Route::controller(CartController::class)->prefix('cart')->middleware('auth:sanctum')->group(function(){
+        Route::get('/','index');
+        Route::post('/','addItem');
+        Route::put('/{itemId}','updateItem');
+        Route::delete('/{itemId}','removeItem');
+        Route::post('/clear', 'clearCart');
+    });
 
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/favorites', [FavoriteController::class, 'index']);
-        Route::post('/favorites/add', [FavoriteController::class, 'addFavorite']);
-        Route::delete('/favorites/remove/{favoriteId}', [FavoriteController::class, 'removeFavorite']);
+    Route::controller(FavoriteController::class)->prefix('favorites')->middleware('auth:sanctum')->group(function(){
+        Route::get('/','index');
+        Route::post('/favorites/add','addFavorite');
+        Route::delete('/favorites/remove/{favoriteId}','removeFavorite');
     });
 });
-
