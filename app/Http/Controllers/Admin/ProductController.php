@@ -14,15 +14,16 @@ class ProductController extends Controller
 {
     
     public function index(Request $request)
-    {
-        $products = Product::with(['subCategory', 'unit'])->get();
-        $categories = SubCategory::pluck('name', 'id')->toArray();    
-        
+    {    
         if($request->wantsJson()) {
+            $products = Product::with(['subCategory', 'unit'])->simplePaginate(10);
             return response()->json([
                 'products' => $products,
             ],200);
         }
+
+        $products = Product::with(['subCategory', 'unit'])->get();
+        $categories = SubCategory::pluck('name', 'id')->toArray();    
 
         return view('admin.products.index', compact('products', 'categories'));
     }
