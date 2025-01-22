@@ -107,7 +107,6 @@
           <th>Product</th>
           <th>Category</th>
           <th>Stock</th>
-          <th>SKU</th>
           <th>Price</th>
           <th>Qty</th>
           <th>Status</th>
@@ -138,20 +137,20 @@
             </td>
             <td>
               <span class="text-truncate d-flex align-items-center text-heading">
-                @if ($product->category == 'Household')
+                @if ($product->subCategory->name == 'Household')
                   <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-warning me-4 p-3"><i class="ti ti-home-2 ti-sm"></i></span>
-                @elseif ($product->category == 'Office')
+                @elseif ($product->subCategory->name == 'Office')
                   <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-info me-4 p-3"><i class="ti ti-briefcase ti-sm"></i></span>
-                @elseif ($product->category == 'Electronics')
+                @elseif ($product->subCategory->name == 'Electronics')
                   <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-danger me-4 p-3"><i class="ti ti-device-mobile ti-sm"></i></span>
-                @elseif ($product->category == 'Shoes')
+                @elseif ($product->subCategory->name == 'Shoes')
                   <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-success me-4"><i class="ti ti-shoe ti-sm"></i></span>
-                @elseif ($product->category == 'Accessories')
+                @elseif ($product->subCategory->name == 'Accessories')
                   <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-secondary me-4"><i class="ti ti-device-watch ti-sm"></i></span>
-                @elseif ($product->category == 'Game')
+                @elseif ($product->subCategory->name == 'Game')
                   <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-primary me-4"><i class="ti ti-device-gamepad-2 ti-sm"></i></span>
                 @endif
-                {{ $product->category }}
+                {{ $product->subCategory->name }}
               </span>
             </td>
             <td>
@@ -174,7 +173,6 @@
                 <span class="d-none">{{ $product->stock }}</span>
               </span>
             </td>
-            <td>{{ $product->sku }}</td>
             <td>{{ $product->price }}</td>
             <td>{{ $product->quantity }}</td>
             <td>
