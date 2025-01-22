@@ -22,7 +22,11 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'phone' => ['required', 'numeric', 'digits:9'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'device_token' => ['nullable'],
+            'platform' => ['nullable', 'in:ios,android']
         ];
     }
 }

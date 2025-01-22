@@ -23,6 +23,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'phone' => ['required', 'numeric', 'digits:9'],
+            'password' => ['required', 'string', 'min:6'],
             'device_token' => ['nullable'],
             'platform' => ['nullable', 'in:ios,android']
         ];

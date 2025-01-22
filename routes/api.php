@@ -17,7 +17,8 @@ Route::get('categories', [CategoryController::class ,'index']);
 Route::get('sub-categories', [SubCategoryController::class ,'index']);
 
 
-Route::prefix('user')->group(function () {
+Route::prefix('/user')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/verifyOtp', [AuthController::class, 'verifyOtp']);
 });

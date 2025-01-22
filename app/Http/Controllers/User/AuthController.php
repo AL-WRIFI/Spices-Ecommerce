@@ -11,6 +11,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Support\Services\Otp\OtpService;
 use App\Support\Traits\Api\ApiResponseTrait;
+use Hash;
 
 
 class AuthController extends Controller
@@ -29,14 +30,31 @@ class AuthController extends Controller
         if(!$user) return $this->notFoundResponse(msg:__('User is not found with this phone ! Please Sign up'));
         if($user->status != "Active") return $this->errorResponse(msg:__('User is not active'), code:401);
 
+        
         // $sendOtpAction->handle(model:$user, OTPType:OTPType::LOGIN, expiredMinutes:5);
 
-        return $this->successResponse(msg:__('OTP Send Successfully'));
+        // return $this->successResponse(msg:__('OTP Send Successfully'));
+
+        return $this->successResponse(data:[
+            'token' => $user->createToken('user_token')->plainTextToken,
+            'user' => $user,
+        ], msg:__('user verified'));
     }
 
     public function register(RegisterRequest $request)
     {
+        $data = $request->validated();
+        $user = User::create([
+            'name' => $data['name'],
+            'phone' => $data['phone'],
+            'email' => "alwrifi@g.com",
+            'password' => Hash::make($data['password']),
+        ]);
 
+        return $this->successResponse(data:[
+            'token' => $user->createToken('user-token')->plainTextToken,
+            'user' => $user,
+        ]);
     }
     public function verifyOtp(ChackOtpRequest $request)
     {
