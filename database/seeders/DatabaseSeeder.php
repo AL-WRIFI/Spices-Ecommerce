@@ -10,6 +10,12 @@ class DatabaseSeeder extends Seeder
   public function run(): void
   {
       // User::factory(3)->create();
+      $this->call([
+        CountriesTableSeeder::class,
+        RegionsTableSeeder::class,
+        CitiesTableSeeder::class,
+        DistrictsTableSeeder::class,
+      ]);
 
       User::factory()->create([
         'name' => 'Test User',
@@ -18,12 +24,11 @@ class DatabaseSeeder extends Seeder
       ]);
 
       $this->call([
-        CategorySeeder::class,
-        SubCategorySeeder::class,
-        UnitSeeder::class,
+          CategorySeeder::class,
+          SubCategorySeeder::class,
+          UnitSeeder::class,
       ]);
 
-      $this->call(ProductSeeder::class);
-
+      $this->call(ProductSeeder::class); 
   }
 }
