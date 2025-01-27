@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
                 'price' => $faker->randomFloat(2, 10, 1000),
                 'sale_price' => $faker->randomFloat(2, 5, 900),
                 'sub_category_id' => $subCategories->random()->id,
-                'image_url' => 'https://picsum.photos/400/300?random=' . rand(10, 100),
+                'image' => 'https://picsum.photos/400/300?random=' . rand(10, 100),
                 'summary' => $faker->sentence(4),
                 'description' => $faker->sentence(8),
                 'unit_id' => $units->random()->id,

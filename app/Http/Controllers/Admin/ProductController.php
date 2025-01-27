@@ -67,7 +67,7 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('images', 'public');
             $url = Storage::url($path);
-            $data['image_url'] = $url;
+            $data['image'] = $url;
         }
 
         Product::create(array_merge($data, ['slug' => Str::slug($request->name)]));
@@ -119,13 +119,13 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             if ($product->image) {
-                $oldImagePath = str_replace('/storage', 'public', $product->image_url);
+                $oldImagePath = str_replace('/storage', 'public', $product->image);
                 Storage::delete($oldImagePath);
             }
     
             $path = $request->file('image')->store('images', 'public');
             $url = Storage::url($path);
-            $data['image_url'] = $url;
+            $data['image'] = $url;
         }
 
         $product->update(array_merge($data, ['slug' => Str::slug($request->name)]));

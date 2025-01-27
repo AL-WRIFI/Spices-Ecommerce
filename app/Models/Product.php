@@ -16,7 +16,7 @@ class Product extends Model
         'price',
         'sale_price',
         'sub_category_id',
-        'image_url',
+        'image',
         'summary',
         'description',
         'unit_id',

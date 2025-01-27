@@ -70,9 +70,9 @@
             <div class="mb-6">
               <label class="form-label" for="basic-default-upload-file">Image</label>
               <input type="file" class="form-control" name="image" id="basic-default-upload-file" accept="image/*"/>
-              @if ($product->image_url)
+              @if ($product->image)
                 <div class="mt-2">
-                  <img src="{{ $product->image_url }}" alt="Product Image" style="max-width: 200px; height: auto;">
+                  <img src="{{ $product->image }}" alt="Product Image" style="max-width: 200px; height: auto;">
                 </div>
               @endif
             </div>

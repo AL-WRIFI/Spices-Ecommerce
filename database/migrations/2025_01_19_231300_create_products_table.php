@@ -18,7 +18,7 @@ return new class extends Migration
             $table->float('price');
             $table->float('sale_price');
             $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade');
-            $table->string('image_url');
+            $table->string('image');
             $table->text('summary')->nullable();
             $table->text('description')->nullable();
             $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');

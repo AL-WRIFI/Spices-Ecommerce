@@ -122,8 +122,8 @@
               <div class="d-flex justify-content-start align-items-center product-name">
                 <div class="avatar-wrapper">
                   <div class="avatar avatar me-4 rounded-2 bg-label-secondary">
-                    @if ($product->image_url)
-                      <img src="{{ $product->image_url }}" alt="Product-{{ $product->id }}" class="rounded-2">
+                    @if ($product->image)
+                      <img src="{{ $product->image }}" alt="Product-{{ $product->id }}" class="rounded-2">
                     @else
                       <span class="avatar-initial rounded-2 bg-label-primary">{{ substr($product->name, 0, 2) }}</span>
                     @endif
