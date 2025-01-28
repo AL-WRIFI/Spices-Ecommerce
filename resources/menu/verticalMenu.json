@@ -58,6 +58,22 @@
       ]
     },
     {
+      "name": "Drivers",
+      "slug": "app-ecommerce-customer",
+      "submenu": [
+        {
+          "url": "drivers",
+          "name": "Show All",
+          "slug": "app-ecommerce-customer-all"
+        },
+        {
+          "url": "drivers/create",
+          "name": "Add New",
+          "slug": "app-ecommerce-customer-details-overview"
+        }
+      ]
+    },
+    {
       "name": "Customer",
       "slug": "app-ecommerce-customer",
       "submenu": [
