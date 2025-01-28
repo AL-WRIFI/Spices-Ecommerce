@@ -3,6 +3,7 @@ use App\Http\Controllers\Admin\Categories\CategoryController;
 use App\Http\Controllers\Admin\Categories\EndCategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\DriverController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\EcommerceDashboard;
@@ -57,6 +58,7 @@ Route::get('/app/ecommerce/settings/notifications', [EcommerceSettingsNotificati
 
 Route::resource('categories', CategoryController::class);
 Route::resource('sub-categories', SubCategoryController::class);
-Route::resource('end-categories', EndCategoryController::class);
+// Route::resource('end-categories', EndCategoryController::class);
 
 Route::resource('products', ProductController::class);
+Route::resource('drivers', DriverController::class);
