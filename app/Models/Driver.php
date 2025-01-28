@@ -33,7 +33,7 @@ class Driver extends Model
 
     protected $casts = [
         'has_order' => 'boolean',
-        'salary' => 'decimal',
+        // 'salary' => 'decimal',
     ];
 
     
