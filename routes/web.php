@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Categories\EndCategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\EcommerceDashboard;
@@ -62,3 +63,8 @@ Route::resource('sub-categories', SubCategoryController::class);
 
 Route::resource('products', ProductController::class);
 Route::resource('drivers', DriverController::class);
+
+
+Route::get('/get-regions/{country_id}', [LocationController::class, 'getRegions']);
+Route::get('/get-cities/{region_id}', [LocationController::class, 'getCities']);
+Route::get('/get-districts/{city_id}', [LocationController::class, 'getDistricts']);
