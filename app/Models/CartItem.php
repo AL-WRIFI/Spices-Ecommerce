@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,13 +26,17 @@ class CartItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function itemPrice()
+    public function itemPrice(): Attribute
     {
-        return $this->product->price;
+        return new Attribute(
+            get: fn() => $this->product->price,
+        );
     }
 
-    public function totalPrice()
+    public function totalPrice(): Attribute
     {
-        return $this->item_price * $this->quantity;
+        return new Attribute(
+            get: fn() => $this->item_price * $this->quantity
+        );
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Categories\CategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\FavoriteController;
@@ -41,4 +42,10 @@ Route::prefix('/user')->group(function () {
         Route::post('/','addFavorite');
         Route::delete('/{favoriteId}','removeFavorite');
     });
+
+    Route::controller(OrderController::class)->prefix('order')->middleware('auth:sanctum')->group(function(){
+        Route::post('/create','store');
+    });
+
+
 });

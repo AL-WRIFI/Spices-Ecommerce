@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Support\Traits\Api\ApiResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
@@ -14,7 +15,7 @@ class CartController extends Controller
 
     public function index(Request $request)
     {
-        $cart = Cart::with('items.product')->where('user_id', $request->user()->id)->first();
+        $cart = Cart::with('cartItems.product')->where('user_id', $request->user()->id)->first();
 
         if (!$cart) {
             return $this->notFoundResponse('Cart not found');
@@ -29,12 +30,14 @@ class CartController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
+        Log::info('addItem => request data',[$request->all()]);
+        Log::info('addItem => validated data',[$validated]);
 
         $cart = Cart::firstOrCreate(
             ['user_id' => $request->user()->id]
         );
 
-        $item = $cart->items()->updateOrCreate(
+        $item = $cart->cartItems()->updateOrCreate(
             ['product_id' => $validated['product_id']],
             ['quantity' => $validated['quantity']]
         );
@@ -69,7 +72,7 @@ class CartController extends Controller
         $cart = Cart::where('user_id', $request->user()->id)->first();
 
         if ($cart) {
-            $cart->items()->delete();
+            $cart->cartItems()->delete();
         }
 
         return $this->successResponse(null, 'Cart cleared successfully');
