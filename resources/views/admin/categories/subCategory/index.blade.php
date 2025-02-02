@@ -56,9 +56,6 @@
                             <tr>
                                 <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
                                     style="width: 0px; display: none;" aria-label=""></th>
-                                <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1"
-                                    colspan="1" style="width: 18px;" data-col="1" aria-label=""><input type="checkbox"
-                                        class="form-check-input"></th>
                                 <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0"
                                     rowspan="1" colspan="1" style="width: 684px;"
                                     aria-label="Categories: activate to sort column ascending" aria-sort="descending">
@@ -71,8 +68,6 @@
                             @foreach ($subCategories as $subCategory)
                                 <tr class="odd">
                                     <td class="  control" tabindex="0" style="display: none;"></td>
-                                    <td class="  dt-checkboxes-cell"><input type="checkbox"
-                                            class="dt-checkboxes form-check-input"></td>
                                     <td class="sorting_1">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-wrapper me-3 rounded-2 bg-label-secondary">

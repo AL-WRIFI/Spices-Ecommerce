@@ -147,7 +147,6 @@
       <thead>
         <tr>
           <th></th>
-          <th></th>
           <th>{{ __('Driver') }}</th>
           <th>{{ __('Phone') }}</th>
           <th>{{ __('Salary') }}</th>
@@ -161,7 +160,6 @@
         @foreach ($drivers as $driver)
           <tr>
             <td></td>
-            <td><input type="checkbox" class="form-check-input"></td>
             <td>
               <div class="d-flex justify-content-start align-items-center product-name">
                 <div class="avatar-wrapper">

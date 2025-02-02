@@ -96,7 +96,6 @@
       <thead>
         <tr>
           <th></th>
-          <th></th>
           <th>{{ __('Order ID') }}</th>
           <th>{{ __('Date') }}</th>
           <th>{{ __('Customer') }}</th>
@@ -117,7 +116,6 @@
         @foreach ($orders as $order)
           <tr>
             <td></td>
-            <td><input type="checkbox" class="form-check-input"></td>
             <td>{{ $order->id }}</td>
             <td>{{ $order->created_at->format('d M Y') }}</td>
             <td>{{ $order->user->name }}</td>

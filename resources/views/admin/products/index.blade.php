@@ -103,7 +103,6 @@
       <thead>
         <tr>
           <th></th>
-          <th></th>
           <th>Product</th>
           <th>Category</th>
           <th>Stock</th>
@@ -117,7 +116,6 @@
         @foreach ($products as $product)
           <tr>
             <td></td>
-            <td><input type="checkbox" class="form-check-input"></td>
             <td>
               <div class="d-flex justify-content-start align-items-center product-name">
                 <div class="avatar-wrapper">
