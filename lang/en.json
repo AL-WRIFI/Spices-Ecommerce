@@ -255,5 +255,13 @@
   "Your order has been placed successfully": "Your order has been placed successfully",
   "Email:": "Email:",
   "Mobile:": "Mobile:",
-  "Card Number:": "Card Number:"
+  "Card Number:": "Card Number:",
+  "Pick-up": "Pick-up",
+  "Pick-up scheduled with driver": "Pick-up scheduled with driver",
+  "Dispatched": "Dispatched",
+  "Item has been picked up by driver": "Item has been picked up by driver",
+  "Package arrived": "Package arrived",
+  "Dispatched for delivery" :"Dispatched for delivery",
+  "Package will be delivered by tomorrow": "Package will be delivered by tomorrow"
+  
 }

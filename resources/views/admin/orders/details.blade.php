@@ -120,6 +120,7 @@
         </div>
       </div>
     </div>
+
     <div class="card mb-6">
       <div class="card-header">
         <h5 class="card-title m-0">{{ __('Shipping activity') }}</h5>
@@ -136,7 +137,55 @@
               <p class="mt-3">{{ __('Your order has been placed successfully') }}</p>
             </div>
           </li>
-          <!-- Add more timeline items dynamically based on order status -->
+          <li class="timeline-item timeline-item-transparent border-primary">
+            <span class="timeline-point timeline-point-primary"></span>
+            <div class="timeline-event">
+              <div class="timeline-header">
+                <h6 class="mb-0">{{ __('Pick-up') }}</h6>
+                <small class="text-muted">{{ __('Wednesday 11:29 AM') }}</small>
+              </div>
+              <p class="mt-3 mb-3">{{ __('Pick-up scheduled with courier') }}</p>
+            </div>
+          </li>
+          <li class="timeline-item timeline-item-transparent border-left-dashed">
+            <span class="timeline-point timeline-point-secondary"></span>
+            <div class="timeline-event">
+              <div class="timeline-header">
+                <h6 class="mb-0">{{ __('Dispatched') }}</h6>
+                <small class="text-muted">{{ __('Thursday 11:29 AM') }}</small>
+              </div>
+              <p class="mt-3 mb-3">{{ __('Item has been picked up by courier') }}</p>
+            </div>
+          </li>
+          <li class="timeline-item timeline-item-transparent border-left-dashed">
+            <span class="timeline-point timeline-point-secondary"></span>
+            <div class="timeline-event">
+              <div class="timeline-header">
+                <h6 class="mb-0">{{ __('Package arrived') }}</h6>
+                <small class="text-muted">{{ __('Saturday 15:20 AM') }}</small>
+              </div>
+              <p class="mt-3 mb-3">{{ __('Package arrived at an Amazon facility, NY') }}</p>
+            </div>
+          </li>
+          <li class="timeline-item timeline-item-transparent border-left-dashed">
+            <span class="timeline-point timeline-point-secondary"></span>
+            <div class="timeline-event">
+              <div class="timeline-header">
+                <h6 class="mb-0">{{ __('Dispatched for delivery') }}</h6>
+                <small class="text-muted">{{ __('Today 14:12 PM') }}</small>
+              </div>
+              <p class="mt-3 mb-3">{{ __('Package has left an Amazon facility, NY') }}</p>
+            </div>
+          </li>
+          <li class="timeline-item timeline-item-transparent border-transparent pb-0">
+            <span class="timeline-point timeline-point-secondary"></span>
+            <div class="timeline-event pb-0">
+              <div class="timeline-header">
+                <h6 class="mb-0">{{ __('Delivery') }}</h6>
+              </div>
+              <p class="mt-1 mb-0">{{ __('Package will be delivered by tomorrow') }}</p>
+            </div>
+          </li>
         </ul>
       </div>
     </div>

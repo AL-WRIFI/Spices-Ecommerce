@@ -239,7 +239,7 @@
   "Subtotal": "المجموع الفرعي",
   "Discount": "الخصم",
   "Coupon": "الكوبون",
-  "Delivery": "التوصيل",
+  "Delivery": "التسليم",
   "Total Amount": "المبلغ الإجمالي",
   "Payment Method": "طريقة الدفع",
   "Payment Status": "حالة الدفع",
@@ -269,6 +269,15 @@
   "Your order has been placed successfully": "تم تقديم طلبك بنجاح",
   "Email:": "البريد الإلكتروني:",
   "Mobile:": "الجوال:",
-  "Card Number:": "رقم البطاقة:"
+  "Card Number:": "رقم البطاقة:",
+  "Pick-up": "التقاط",
+  "Pick-up scheduled with driver": "تم جدولة الالتقاط مع السائق",
+  "Dispatched": "تم الشحن",
+  "Item has been picked up by driver": "تم التقاط العنصر بواسطة السائق",
+  "Package arrived": "وصلت الطرد",
+  "Package arrived at an Amazon facility, NY": "وصلت الطرد إلى منشأة أمازون، نيويورك",
+  "Dispatched for delivery": "تم الشحن للتسليم",
+  "Package has left an Amazon facility, NY": "غادرت الطرد منشأة أمازون، نيويورك",
+  "Package will be delivered by tomorrow": "سيتم تسليم الطرد بحلول الغد"
   
 }
