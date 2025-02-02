@@ -46,14 +46,9 @@
       "slug": "app-ecommerce-order",
       "submenu": [
         {
-          "url": "app/ecommerce/order/list",
+          "url": "/orders",
           "name": "Order List",
           "slug": "app-ecommerce-order-list"
-        },
-        {
-          "url": "app/ecommerce/order/details",
-          "name": "Order Details",
-          "slug": "app-ecommerce-order-details"
         }
       ]
     },
