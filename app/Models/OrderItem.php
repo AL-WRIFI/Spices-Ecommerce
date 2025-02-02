@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,13 +33,17 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function productPrice()
+    public function productPrice(): Attribute
     {
-        return $this->product()->price;
+        return new Attribute(
+            get: fn() => $this->product->price,
+        );
     }
 
-    public function totalPrice()
+    public function totalPrice(): Attribute
     {
-        return $this->productPrice() * $this->quantity;
+        return new Attribute(
+            get: fn() => $this->product_price * $this->quantity
+        );
     }
 }
