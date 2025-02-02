@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\User\CreateOrderAction;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,30 @@ class OrderController extends Controller
     public function __construct(CreateOrderAction $createOrderAction)
     {
         $this->createOrderAction = $createOrderAction;
+    }
+
+    public function index()
+    {
+        $orders = Order::with(['user', 'driver', 'coupon'])->get();
+
+        $pendingPaymentCount = Order::where('payment_status', 'pending')->count();
+        $completedOrdersCount = Order::where('status', 'completed')->count();
+        $refundedOrdersCount = Order::where('status', 'refunded')->count();
+        $failedOrdersCount = Order::where('status', 'failed')->count();
+
+        return view('admin.orders.index', [
+            'orders' => $orders,
+            'pendingPaymentCount' => $pendingPaymentCount,
+            'completedOrdersCount' => $completedOrdersCount,
+            'refundedOrdersCount' => $refundedOrdersCount,
+            'failedOrdersCount' => $failedOrdersCount,
+        ]);
+    }
+
+    public function show($id)
+    {
+        $order = Order::with(['user', 'driver', 'coupon'])->where('id', $id)->first();
+        return view('admin.orders.details', compact('order'));
     }
 
     public function store(OrderRequest $request): JsonResponse
