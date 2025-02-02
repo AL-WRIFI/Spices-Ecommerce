@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Actions\Otp\SendOtpAction;
-use App\Enums\OTPType;
+use App\Enums\OTPTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChackOtpRequest;
 use App\Http\Requests\LoginRequest;
@@ -41,7 +41,7 @@ class AuthController extends Controller
             return $this->errorResponse(msg: __('User is not active'), code: 401);
         }
 
-        // $sendOtpAction->handle(model:$user, OTPType:OTPType::LOGIN, expiredMinutes:5);
+        // $sendOtpAction->handle(model:$user, OTPTypeEnum:OTPTypeEnum::LOGIN, expiredMinutes:5);
 
        // return $this->successResponse(msg:__('OTP Send Successfully'));
 
@@ -71,8 +71,8 @@ class AuthController extends Controller
         $data = $request->validated();
         $user = User::where('phone', $data['phone']);
 
-        $otpStatus = $this->otpService->chackOtp($user, OTPType::LOGIN, $data['code']);
-        if(!$otpStatus) return $this->errorResponse(msg:__('OTP is valid'), code:401);
+        $OTPStatusEnum = $this->otpService->chackOtp($user, OTPTypeEnum::LOGIN, $data['code']);
+        if(!$OTPStatusEnum) return $this->errorResponse(msg:__('OTP is valid'), code:401);
 
         return $this->successResponse(data:[
             'token' => $user->createToken('user_token')->plainTextToken,

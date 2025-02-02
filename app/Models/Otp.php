@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\OTPStatus;
-use App\Enums\OTPType;
+use App\Enums\OTPStatusEnum;
+use App\Enums\OTPTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,8 +21,8 @@ class Otp extends Model
 
     protected $casts = [
         'expired_at' => 'datetime',
-        'type' => OTPType::class,
-        'status' => OTPStatus::class,
+        'type' => OTPTypeEnum::class,
+        'status' => OTPStatusEnum::class,
     ];
 
     public function otpable()

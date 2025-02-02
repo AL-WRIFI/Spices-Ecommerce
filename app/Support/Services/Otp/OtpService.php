@@ -2,8 +2,8 @@
 
 namespace App\Support\Services\Otp;
 
-use App\Enums\OTPStatus;
-use App\Enums\OTPType;
+use App\Enums\OTPStatusEnum;
+use App\Enums\OTPTypeEnum;
 use App\Models\Otp;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,9 +20,9 @@ class OtpService
     {
         return $model->create($payload);
     }
-    public function expiredPreviousCodes(Model $model, OTPType $OTPType)
+    public function expiredPreviousCodes(Model $model, OTPTypeEnum $OTPTypeEnum)
     {
-        return $model->otps()->where('type', $OTPType)->update(['expired_at' => now(), 'status' => OTPStatus::EXPIRED]);
+        return $model->otps()->where('type', $OTPTypeEnum)->update(['expired_at' => now(), 'status' => OTPStatusEnum::EXPIRED]);
     }
 
     public function deleteExpiredCodes()
@@ -30,13 +30,13 @@ class OtpService
         return $this->otp::where('expired_at', '<', now())->delete();
     }
 
-    public function chackOtp(Model $model, OTPType $OTPType, $otp = null)
+    public function chackOtp(Model $model, OTPTypeEnum $OTPTypeEnum, $otp = null)
     {
-        return $model->otps()->where('type', $OTPType->value)->where('expired_at', '>', now())->where('code', $otp)->select('id', 'code')->first();
+        return $model->otps()->where('type', $OTPTypeEnum->value)->where('expired_at', '>', now())->where('code', $otp)->select('id', 'code')->first();
     }
 
-    public function getSameTypeOtp(Model $model, OTPType $OTPType)
+    public function getSameTypeOtp(Model $model, OTPTypeEnum $OTPTypeEnum)
     {
-        return $model->otps()->where('type', $OTPType->value)->where('expired_at', '>', now())->where('status', OTPStatus::ACTIVE)->select('id', 'code')->first();
+        return $model->otps()->where('type', $OTPTypeEnum->value)->where('expired_at', '>', now())->where('status', OTPStatusEnum::ACTIVE)->select('id', 'code')->first();
     }
 }

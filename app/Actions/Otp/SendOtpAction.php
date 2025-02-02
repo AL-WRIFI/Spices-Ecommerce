@@ -2,7 +2,7 @@
 
 namespace App\Actions\Otp;
 
-use App\Enums\OTPType;
+use App\Enums\OTPTypeEnum;
 use App\Jobs\SendOtpSms;
 use App\Support\Services\Otp\OtpService;
 use Illuminate\Database\Eloquent\Model;
@@ -17,12 +17,12 @@ class SendOtpAction
     }
 
 
-    public function handle(Model $model, OTPType $OTPType, int $expiredMinutes)
+    public function handle(Model $model, OTPTypeEnum $OTPTypeEnum, int $expiredMinutes)
     {
         $code = rand(1000, 9999);
-        $payload = ['code' => $code, 'type' => $OTPType, 'expired_at' => now()->addMinutes($expiredMinutes)];
+        $payload = ['code' => $code, 'type' => $OTPTypeEnum, 'expired_at' => now()->addMinutes($expiredMinutes)];
 
-        $haveOldCode = $this->otpService->getSameTypeOtp($model, $OTPType);
+        $haveOldCode = $this->otpService->getSameTypeOtp($model, $OTPTypeEnum);
         if($haveOldCode) return false;
 
         dispatch(new SendOtpSms($model, __('Your Otp is :').$code));

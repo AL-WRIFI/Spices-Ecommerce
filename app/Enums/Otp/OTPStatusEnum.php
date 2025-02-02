@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum OTPStatus: string
+enum OTPStatusEnum: string
 {
     case ACTIVE = 'active';
     case USED = 'used';

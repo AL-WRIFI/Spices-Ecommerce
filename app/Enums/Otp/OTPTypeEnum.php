@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum OTPType: string
+enum OTPTypeEnum: string
 {
     case LOGIN = 'login';
     case REGISTER = 'register';
