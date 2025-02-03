@@ -72,3 +72,5 @@ Route::get('/get-districts/{city_id}', [LocationController::class, 'getDistricts
 
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+
+Route::post('/orders/appoint-driver', [OrderController::class, 'appointDriver'])->name('orders.appointDriver');
