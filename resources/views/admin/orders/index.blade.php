@@ -20,6 +20,14 @@
 @vite([
   // 'resources/assets/js/app-ecommerce-order-list.js'
 ])
+
+<script>
+$('#shareProject').on('show.bs.modal', function (event) {
+    const button = $(event.relatedTarget); // Button that triggered the modal
+    const orderId = button.data('order-id'); // Extract info from data-* attributes
+    $(this).find('input[name="order_id"]').val(orderId);
+});
+</script>
 @endsection
 
 @section('content')
@@ -153,16 +161,18 @@
             <td>{{ $order->driver_id ?? 'N/A' }}</td>
             <td>
               <div class="d-inline-block text-nowrap">
-                <button class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light">
+                <button class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#shareProject" data-order-id="{{ $order->id }}">
                   <i class="ti ti-edit" onclick=""></i>
                 </button>
-                <button class="btn btn-sm btn-icon btn-text-secondary rounded-pill waves-effect waves-light dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                <a href="{{ route('orders.show', $order->id)}}" class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill"><i class="ti ti-eye ti-md"></i></a>
+                {{-- <a href="{{ route('orders.appointDriver.form')}}" class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light"><i class="ti ti-edit"></i></a> --}}
+                {{-- <button class="btn btn-sm btn-icon btn-text-secondary rounded-pill waves-effect waves-light dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                   <i class="ti ti-dots-vertical ti-md"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-end m-0">
+                </button> --}}
+                {{-- <div class="dropdown-menu dropdown-menu-end m-0">
                   <a href="{{ route('orders.show', $order->id)}}" class="dropdown-item">{{ __('View') }}</a>
                   <a href="javascript:0;" class="dropdown-item">{{ __('Cancel') }}</a>
-                </div>
+                </div> --}}
               </div>
             </td>
           </tr>
@@ -172,4 +182,8 @@
   </div>
 </div>
 
+@include('admin/orders/appoint-driver')
+
 @endsection
+
+

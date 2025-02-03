@@ -20,7 +20,7 @@
 ,
 @section('page-script')
 @vite([
-  'resources/assets/js/driver-list.js',
+  // 'resources/assets/js/driver-list.js',
 //   'resources/assets/js/app-ecommerce-product-list.js'
 ])
 
