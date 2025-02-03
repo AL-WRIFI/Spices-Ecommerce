@@ -46,6 +46,11 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function activity()
+    {
+        return $this->hasMany(OrderActivity::class);
+    }
+
     public function subtotal(): Attribute
     {
         return new Attribute(
