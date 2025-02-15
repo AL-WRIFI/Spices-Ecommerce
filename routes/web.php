@@ -3,9 +3,11 @@ use App\Http\Controllers\Admin\Categories\CategoryController;
 use App\Http\Controllers\Admin\Categories\EndCategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\User\AuthController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\EcommerceDashboard;
@@ -74,3 +76,5 @@ Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
 Route::post('/orders/appoint-driver', [OrderController::class, 'appointDriver'])->name('orders.appointDriver');
+
+Route::resource('users', UserController::class);
