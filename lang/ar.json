@@ -278,6 +278,26 @@
   "Package arrived at an Amazon facility, NY": "وصلت الطرد إلى منشأة أمازون، نيويورك",
   "Dispatched for delivery": "تم الشحن للتسليم",
   "Package has left an Amazon facility, NY": "غادرت الطرد منشأة أمازون، نيويورك",
-  "Package will be delivered by tomorrow": "سيتم تسليم الطرد بحلول الغد"
-  
+  "Package will be delivered by tomorrow": "سيتم تسليم الطرد بحلول الغد",
+
+
+  "Customers": "العملاء",
+  "Add Customer": "إضافة عميل",
+  "Customer Id": "رقم العميل",
+  "Total Spent": "إجمالي الإنفاق",
+  "Name*": "الاسم*",
+  "Email*": "البريد الإلكتروني*",
+  "Mobile": "الجوال",
+  "Shipping Information": "معلومات الشحن",
+  "Address Line 1": "العنوان الأول",
+  "Address Line 2": "العنوان الثاني",
+  "Town": "المدينة",
+  "State / Province": "الولاية/المحافظة",
+  "Post Code": "الرمز البريدي",
+  "Select": "اختر",
+  "Use as a billing address?": "استخدام كعنوان للفوترة؟",
+  "If you need more info, please check budget.": "إذا كنت بحاجة لمزيد من المعلومات، راجع الميزانية.",
+  "Registered At" : "تاريج التسجيل",
+  "Orders" : "عدد الطلبات"
+
 }

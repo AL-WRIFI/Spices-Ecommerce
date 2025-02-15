@@ -262,6 +262,28 @@
   "Item has been picked up by driver": "Item has been picked up by driver",
   "Package arrived": "Package arrived",
   "Dispatched for delivery" :"Dispatched for delivery",
-  "Package will be delivered by tomorrow": "Package will be delivered by tomorrow"
+  "Package will be delivered by tomorrow": "Package will be delivered by tomorrow",
   
+
+
+
+  "Customers": "Customers",
+  "Add Customer": "Add Customer",
+  "Customer Id": "Customer Id",
+  "Total Spent": "Total Spent",
+  "Name*": "Name*",
+  "Email*": "Email*",
+  "Mobile": "Mobile",
+  "Shipping Information": "Shipping Information",
+  "Address Line 1": "Address Line 1",
+  "Address Line 2": "Address Line 2",
+  "Town": "Town",
+  "State / Province": "State / Province",
+  "Post Code": "Post Code",
+  "Select": "Select",
+  "Use as a billing address?": "Use as a billing address?",
+  "If you need more info, please check budget.": "If you need more info, please check budget.",
+  "Registered At" : "Registered At",
+  "Orders" : "Orders"
+
 }
