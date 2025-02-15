@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\Categories\CategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\AuthController;
@@ -15,9 +15,14 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('products', [ProductController::class ,'index']);
-Route::get('categories', [CategoryController::class ,'index']);
-Route::get('sub-categories', [SubCategoryController::class ,'index']);
+Route::prefix('/attribute')->group(function () {
+    Route::get('categories', [CategoryController::class ,'index']);
+    Route::get('sub-categories', [SubCategoryController::class ,'index']);
+});
+
+
+Route::get('products', [ProductController::class ,'fetch']);
+
 
 
 Route::prefix('/user')->group(function () {
