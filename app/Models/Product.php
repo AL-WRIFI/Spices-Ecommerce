@@ -15,6 +15,7 @@ class Product extends Model
         'slug',
         'price',
         'sale_price',
+        'category_id',
         'sub_category_id',
         'image',
         'summary',
@@ -24,6 +25,11 @@ class Product extends Model
         'stock',
         'status',
     ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function subCategory(): BelongsTo
     {
