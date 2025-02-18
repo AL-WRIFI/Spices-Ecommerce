@@ -3,7 +3,7 @@
 @section('title', 'eCommerce Product Add - Apps')
 
 @section('vendor-style')
-@vite([
+  @vite([
   'resources/assets/vendor/libs/quill/typography.scss',
   'resources/assets/vendor/libs/quill/katex.scss',
   'resources/assets/vendor/libs/quill/editor.scss',
@@ -11,11 +11,11 @@
   'resources/assets/vendor/libs/dropzone/dropzone.scss',
   'resources/assets/vendor/libs/flatpickr/flatpickr.scss',
   'resources/assets/vendor/libs/tagify/tagify.scss'
-])
+  ])
 @endsection
 
 @section('vendor-script')
-@vite([
+  @vite([
   'resources/assets/vendor/libs/quill/katex.js',
   'resources/assets/vendor/libs/quill/quill.js',
   'resources/assets/vendor/libs/select2/select2.js',
@@ -23,13 +23,23 @@
   'resources/assets/vendor/libs/jquery-repeater/jquery-repeater.js',
   'resources/assets/vendor/libs/flatpickr/flatpickr.js',
   'resources/assets/vendor/libs/tagify/tagify.js'
-])
+  ])
 @endsection
 
+@section('page-script')
+  @vite([
+    'resources/assets/js/app-ecommerce-product-add.js'
+  ])
+@endsection
+
+@section('page-style')
+<style>
+  
+</style>
+@endsection
 @section('content')
 <div class="app-ecommerce">
 
-  <!-- Add Product -->
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
     <div class="d-flex flex-column justify-content-center">
       <h4 class="mb-1">Add a new Product</h4>
@@ -44,10 +54,10 @@
     </div>
   </div>
 
-  <!-- Form -->
   <form id="product-form" action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="image_path" id="image-path"> 
+    <input type="hidden" name="image" id="image-path"> 
+    <input type="file" name="gallery[]" id="hidden-images" multiple style="display: none;">
 
     <div class="row">
       <div class="col-12 col-lg-8">
@@ -104,40 +114,38 @@
             </div>
           </div>
         </div>
-        <!-- /Product Information -->
 
-        <!-- Media -->
-        {{-- <div class="card mb-6">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 card-title">Product Image</h5>
-            <a href="javascript:void(0);" class="fw-medium">Add media from URL</a>
-          </div>
-          <div class="card-body">
-            <div class="dropzone needsclick p-0" id="dropzone-basic">
-              <div class="dz-message needsclick">
-                <p class="h4 needsclick pt-3 mb-2">Drag and drop your image here</p>
-                <p class="h6 text-muted d-block fw-normal mb-2">or</p>
-                <span class="note needsclick btn btn-sm btn-label-primary" id="btnBrowse">Browse image</span>
-              </div>
-              <div class="fallback">
-                <input name="image" type="file" />
+          <div class="card mb-6">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0 card-title">Product Image</h5>
+            </div>
+            <div class="card-body">
+              <div class="dropzone needsclick" id="dropzone-basic">
+                <div class="dz-message needsclick">
+                  <p class="h4 needsclick pt-3 mb-2">Drag and drop your image here</p>
+                  <p class="h6 text-muted d-block fw-normal mb-2">or</p>
+                  <span class="note needsclick btn btn-sm btn-label-primary">Browse image</span>
+                </div>
               </div>
             </div>
           </div>
-        </div> --}}
-        <!-- /Media -->
       </div>
-      <!-- /First column -->
 
-      <!-- Second column -->
       <div class="col-12 col-lg-4">
-        <!-- Organize Card -->
         <div class="card mb-6">
           <div class="card-header">
             <h5 class="card-title mb-0">Organize</h5>
           </div>
           <div class="card-body">
-            <!-- Sub Category -->
+            <div class="mb-6">
+              <label class="form-label" for="ecommerce-product-category">Category</label>
+              <select class="form-select" id="ecommerce-product-category" name="category_id" required>
+                <option value="">Select a category</option>
+                @foreach($categories as $category)
+                  <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+              </select>
+            </div>
             <div class="mb-6">
               <label class="form-label" for="ecommerce-product-sub-category">Sub Category</label>
               <select class="form-select" id="ecommerce-product-sub-category" name="sub_category_id" required>
@@ -146,7 +154,6 @@
                 @endforeach
               </select>
             </div>
-            <!-- Unit -->
             <div class="mb-6">
               <label class="form-label" for="ecommerce-product-unit">Unit</label>
               <select class="form-select" id="ecommerce-product-unit" name="unit_id" required>
@@ -157,64 +164,41 @@
             </div>
           </div>
         </div>
-        <!-- /Organize Card -->
       </div>
-      <!-- /Second column -->
     </div>
 
-    <!-- Save Button -->
     <div class="text-end mt-4">
       <button type="submit" class="btn btn-primary">Save Product</button>
     </div>
   </form>
-  <!-- /Form -->
 </div>
 
 <script>
-  'use strict';
+  document.addEventListener('DOMContentLoaded', function () {
+    const categorySelect = document.getElementById('ecommerce-product-category');
+    const subCategorySelect = document.getElementById('ecommerce-product-sub-category');
 
-  // Dropzone
-  const previewTemplate = `<div class="dz-preview dz-file-preview">
-    <div class="dz-details">
-      <div class="dz-thumbnail">
-        <img data-dz-thumbnail>
-        <span class="dz-nopreview">No preview</span>
-        <div class="dz-success-mark"></div>
-        <div class="dz-error-mark"></div>
-        <div class="dz-error-message"><span data-dz-errormessage></span></div>
-        <div class="progress">
-          <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
-        </div>
-      </div>
-      <div class="dz-filename" data-dz-name></div>
-      <div class="dz-size" data-dz-size></div>
-    </div>
-  </div>`;
+    categorySelect.addEventListener('change', function () {
+        const categoryId = this.value;
+        subCategorySelect.innerHTML = '<option value="">Select a subcategory</option>';
 
-  const dropzoneBasic = document.querySelector('#dropzone-basic');
-  if (dropzoneBasic) {
-    const myDropzone = new Dropzone(dropzoneBasic, {
-      url: "{{ route('products.store') }}", // Route الخاص برفع الصور
-      paramName: "image", // اسم الحقل الذي سيتم إرسال الصورة عبره
-      maxFilesize: 5, // الحد الأقصى لحجم الملف
-      acceptedFiles: '.jpg,.jpeg,.png,.gif', // أنواع الملفات المقبولة
-      addRemoveLinks: true, // إظهار رابط لإزالة الملف
-      maxFiles: 1, // الحد الأقصى لعدد الملفات
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // إضافة CSRF Token
-      },
-      init: function () {
-        this.on("success", function (file, response) {
-          console.log("File uploaded successfully:", response);
-          // تخزين مسار الصورة في الحقل المخفي
-          document.getElementById('image-path').value = response.path;
-        });
-        this.on("error", function (file, errorMessage) {
-          console.error("Error uploading file:", errorMessage);
-        });
-      }
+        if (categoryId) {
+            fetch(`/get-subcategories/${categoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(subCategory => {
+                        const option = document.createElement('option');
+                        option.value = subCategory.id;
+                        option.textContent = subCategory.name;
+                        subCategorySelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching subcategories:', error);
+                });
+        }
     });
-  }
+});
 </script>
 
 @endsection

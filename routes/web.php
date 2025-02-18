@@ -62,9 +62,10 @@ Route::get('/app/ecommerce/settings/notifications', [EcommerceSettingsNotificati
 
 Route::resource('categories', CategoryController::class);
 Route::resource('sub-categories', SubCategoryController::class);
-// Route::resource('end-categories', EndCategoryController::class);
+Route::get('/get-subcategories/{categoryId}', [SubCategoryController::class, 'getSubCategories']);
 
 Route::resource('products', ProductController::class);
+Route::delete('/gallery/{image}', [ProductController::class, 'destroyImage'])->name('gallery.destroy');
 Route::resource('drivers', DriverController::class);
 
 

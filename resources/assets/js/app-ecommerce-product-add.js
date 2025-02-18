@@ -6,6 +6,7 @@
 // Javascript to handle the e-commerce product add page
 
 (function () {
+  
   // Comment editor
   const commentEditor = document.querySelector('.comment-editor');
 
@@ -37,19 +38,49 @@
     </div>
   </div>`;
 
-  // Basic Dropzone
-  const dropzoneBasic = document.querySelector('#dropzone-basic');
-  if (dropzoneBasic) {
-    const myDropzone = new Dropzone(dropzoneBasic, {
-      previewTemplate: previewTemplate,
-      parallelUploads: 1,
-      maxFilesize: 5,
-      acceptedFiles: '.jpg,.jpeg,.png,.gif',
-      addRemoveLinks: true,
-      maxFiles: 1
-    });
-  }
+  const dropzoneMulti = document.querySelector('#dropzone-basic');
+  if (dropzoneMulti) {
+      
+      const myDropzone = new Dropzone(dropzoneMulti, {
+          url: '#',
+          previewTemplate: previewTemplate,
+          clickable: true,
+          addRemoveLinks: true,
+          maxFiles: 5,
+          maxFilesize: 5,
+          acceptedFiles: 'image/*',
+          autoProcessQueue: false,
+          parallelUploads: 5,
+          init: function() {
+              const hiddenInput = document.querySelector('#hidden-images');
+              
+              this.on("addedfile", file => {
+                  const dataTransfer = new DataTransfer();
+                  Array.from(hiddenInput.files).forEach(f => dataTransfer.items.add(f));
+                  dataTransfer.items.add(file);
+                  hiddenInput.files = dataTransfer.files;
+    
+                  const reader = new FileReader();
+                  reader.onload = (e) => {
+                      file.previewElement.querySelector('img').src = e.target.result;
+                  };
+                  reader.readAsDataURL(file);
+              });
 
+              this.on("removedfile", file => {
+                  const dataTransfer = new DataTransfer();
+                  Array.from(hiddenInput.files)
+                      .filter(f => f.name !== file.name)
+                      .forEach(f => dataTransfer.items.add(f));
+                  hiddenInput.files = dataTransfer.files;
+              });
+
+              dropzoneMulti.querySelector('.btn').addEventListener('click', () => {
+                  this.hiddenFileInput.click();
+              });
+          }
+      });
+  }
   // Basic Tags
   const tagifyBasicEl = document.querySelector('#ecommerce-product-tags');
   if (tagifyBasicEl) {

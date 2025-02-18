@@ -81,4 +81,10 @@ class SubCategoryController extends Controller
     
         return redirect()->route('sub-categories.index')->with('success', 'Sub Category updated successfully.');
     }
+
+    public function getSubCategories($categoryId)
+    {
+        $subCategories = SubCategory::where('category_id', $categoryId)->get();
+        return response()->json($subCategories);
+    }
 }
