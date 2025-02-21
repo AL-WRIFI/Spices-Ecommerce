@@ -23,7 +23,8 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'phone' => ['required', 'numeric', 'digits:9'],
+            'phone' => ['required', 'numeric', 'digits:9', 'unique:users,phone,except,id'],
+            'email' => ['required', 'email', 'string'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'device_token' => ['nullable'],
             'platform' => ['nullable', 'in:ios,android']
