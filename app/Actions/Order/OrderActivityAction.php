@@ -14,7 +14,7 @@ class OrderActivityAction
             'status' => $activity->targetOrderStatus(),
         ]);
 
-        $order->activity->create([
+        $order->activity()->create([
             'activity' => $activity->value,
             'activity_date' => now(),
             'order_status' => $updatedOrder->status,
