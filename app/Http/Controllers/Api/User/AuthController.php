@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Api\User;
 
 use App\Actions\Otp\SendOtpAction;
 use App\Enums\OTPTypeEnum;
@@ -57,7 +57,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'phone' => $data['phone'],
-            'email' => "alwrifi@g.com",
+            'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
