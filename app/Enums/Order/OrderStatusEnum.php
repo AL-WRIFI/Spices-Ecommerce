@@ -7,6 +7,7 @@ enum OrderStatusEnum: string
     case PENDING = 'pending';
     case PROCESSING = 'processing';
     case SHIPPED = 'shipped';
+    case ON_WAY = 'on_way';
     case DELIVERED = 'delivered';
     case CANCELLED = 'cancelled';
     case REFUNDED = 'refunded';
@@ -23,6 +24,7 @@ enum OrderStatusEnum: string
             self::PENDING => 'الطلب قيد الانتظار',
             self::PROCESSING => 'الطلب قيد المعالجة',
             self::SHIPPED => 'تم شحن الطلب',
+            self::ON_WAY => 'في الطريق',
             self::DELIVERED => 'تم تسليم الطلب',
             self::CANCELLED => 'تم إلغاء الطلب',
             self::REFUNDED => 'تم استرداد المبلغ',
