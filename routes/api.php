@@ -3,10 +3,10 @@
 use App\Http\Controllers\Admin\Categories\CategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use App\Http\Controllers\Api\Product\ProductController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\User\CartController;
-use App\Http\Controllers\User\AuthController;
-use App\Http\Controllers\User\FavoriteController;
+use App\Http\Controllers\Api\User\CartController;
+use App\Http\Controllers\Api\User\AuthController;
+use App\Http\Controllers\Api\User\FavoriteController;
+use App\Http\Controllers\Api\User\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +21,7 @@ Route::prefix('/attribute')->group(function () {
 });
 
 
-Route::get('products', [ProductController::class ,'fetch']);
+Route::post('products', [ProductController::class ,'fetch']);
 
 
 
@@ -48,9 +48,12 @@ Route::prefix('/user')->group(function () {
         Route::delete('/{favoriteId}','removeFavorite');
     });
 
-    Route::controller(OrderController::class)->prefix('order')->middleware('auth:sanctum')->group(function(){
+    Route::controller(OrderController::class)->prefix('orders')->middleware('auth:sanctum')->group(function(){
+        Route::get('/ongoing-order','ongoing');
+        Route::get('/','fetch');
         Route::post('/create','store');
+        Route::get('/{order_id}', 'show');
+        Route::put('/cancel/{order_id}', 'cancelOrder');
     });
-
 
 });
