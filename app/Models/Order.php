@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -86,7 +87,7 @@ class Order extends Model
         if ($this->coupon) {
             $coupon = $this->coupon;
 
-            if (!$coupon->isActive || ($coupon->valid_from && now()->lt($coupon->valid_from)) || ($coupon->valid_to && now()->gt($coupon->valid_to))) {
+            if (!$coupon->isActive() || ($coupon->valid_from && now()->lt($coupon->valid_from)) || ($coupon->valid_to && now()->gt($coupon->valid_to))) {
                 return 0;
             }
 
@@ -107,5 +108,31 @@ class Order extends Model
     protected function calculateDeliveryAmount()
     {
         return 0;
+    }
+
+
+
+
+    public function scopeForDriver(Builder $query, int $driverId): Builder
+    {
+        return $query->where('driver_id', $driverId);
+    }
+    
+    public function scopeFilterByStatus(Builder $query, ?string $status): Builder
+    {
+        return $status ? $query->where('status', $status) : $query;
+    }
+
+    public function scopeFilterByDateRange(Builder $query, ?string $fromDate, ?string $toDate): Builder
+    {
+        if ($fromDate && $toDate) {
+            return $query->whereBetween('created_at', [$fromDate, $toDate]);
+        }
+        return $query;
+    }
+
+    public function scopeFilterByPaymentMethod(Builder $query, ?string $paymentMethod): Builder
+    {
+        return $paymentMethod ? $query->where('payment_method', $paymentMethod) : $query;
     }
 }
