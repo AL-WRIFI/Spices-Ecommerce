@@ -52,24 +52,6 @@ class OrderController extends Controller
         return view('admin.orders.details', compact('order'));
     }
 
-    public function store(OrderRequest $request): JsonResponse
-    {
-        try {
-            $order = $this->createOrderAction->handle($request->validated());
-            $this->orderActivityAction->handle($order, OrderActivityEnum::ORDER_PLACED);
-
-            return response()->json([
-                'message' => 'Order created successfully.',
-                'data' => new OrderResource($order),
-            ], 201);
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Order creation failed.',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
-    }
-
     public function appointDriver(AppointDriverRequest $request, AppointDriverAction $appointDriverAction)
     {
         $appointed = $appointDriverAction->handle(data: $request->validated());

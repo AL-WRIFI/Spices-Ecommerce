@@ -39,7 +39,7 @@ class OrderController extends Controller
             $user = $request->user();
             $orders = Order::where('user_id', $user->id)->whereIn('status', ['pending','processing','shipped','on_way'])->with('orderItems')->get();
 
-            return $this->successResponse(data:['data' => OrderDetailsResource::collection($orders)], msg:'success');
+            return $this->successResponse(data:[OrderDetailsResource::collection($orders)], msg:'success');
         } catch (Exception $e) {
             return $this->errorResponse(msg:'failed', errors:$e->getMessage(), code:400);
         }
@@ -50,7 +50,7 @@ class OrderController extends Controller
             $user = User::find($request->user()->id);
             $orders = $user->orders;
 
-            return $this->successResponse(data:['data' =>  OrderResource::collection($orders)], msg:'success');
+            return $this->successResponse(data:[OrderResource::collection($orders)], msg:'success');
         } catch (Exception $e) {
             return $this->errorResponse(msg:'failed', errors:$e->getMessage(), code:400);
         }
@@ -62,7 +62,7 @@ class OrderController extends Controller
             $user = $request->user();
             $order = Order::where('id', $request->order_id)->where('user_id', $user->id)->with('orderItems')->first();
 
-            return $this->successResponse(data:['data' => new OrderDetailsResource($order)], msg:'success');
+            return $this->successResponse(data:[ new OrderDetailsResource($order)], msg:'success');
         } catch (Exception $e) {
             return $this->errorResponse(msg:'failed', errors:$e->getMessage(), code:400);
         }
@@ -74,7 +74,7 @@ class OrderController extends Controller
             $order = $this->createOrderAction->handle($request->validated());
             $this->orderActivityAction->handle($order, OrderActivityEnum::ORDER_PLACED);
 
-            return $this->successResponse(data:['data' => new OrderDetailsResource($order)], msg:'Order created successfully.', code:200);
+            return $this->successResponse(data:[ new OrderDetailsResource($order)], msg:'Order created successfully.', code:200);
 
         } catch (Exception $e) {
             
