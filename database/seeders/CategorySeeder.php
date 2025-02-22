@@ -13,35 +13,29 @@ class CategorySeeder extends Seeder
 
         $categories = [
             [
-                'name' => 'Electronics',
-                'slug' => 'electronics',
+                'name' => 'VAR1',
+                'slug' => 'var1',
                 'image' => 'https://picsum.photos/400/300?random=1',
                 'description' => $faker->sentence(6),
             ],
             [
-                'name' => 'Clothing',
-                'slug' => 'clothing',
+                'name' => 'VAR2',
+                'slug' => 'var2',
                 'image' => 'https://picsum.photos/400/300?random=2',
                 'description' => $faker->sentence(6),
             ],
             [
-                'name' => 'Home & Kitchen',
-                'slug' => 'home-kitchen',
+                'name' => 'VAR3',
+                'slug' => 'var3',
                 'image' => 'https://picsum.photos/400/300?random=3',
                 'description' => $faker->sentence(6),
             ],
             [
-                'name' => 'Books',
-                'slug' => 'books',
+                'name' => 'VAR4',
+                'slug' => 'var4',
                 'image' => 'https://picsum.photos/400/300?random=4',
                 'description' => $faker->sentence(6),
-            ],
-            [
-                'name' => 'Sports',
-                'slug' => 'sports',
-                'image' => 'https://picsum.photos/400/300?random=5',
-                'description' => $faker->sentence(6),
-            ],
+            ]
         ];
 
         foreach ($categories as $category) {
