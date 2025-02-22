@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Cart\CartItemResource;
+use App\Http\Resources\Cart\CartResource;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Support\Traits\Api\ApiResponseTrait;
@@ -21,7 +23,7 @@ class CartController extends Controller
             return $this->notFoundResponse('Cart not found');
         }
 
-        return $this->successResponse($cart);
+        return $this->successResponse(new CartResource($cart));
     }
 
     public function addItem(Request $request)
@@ -42,7 +44,7 @@ class CartController extends Controller
             ['quantity' => $validated['quantity']]
         );
 
-        return $this->successResponse($item, 'Item added to cart', 201);
+        return $this->successResponse(new CartItemResource($item), 'Item added to cart', 201);
     }
 
     public function updateItem(Request $request, $itemId)
@@ -55,7 +57,7 @@ class CartController extends Controller
 
         $item->update(['quantity' => $validated['quantity']]);
 
-        return $this->successResponse($item, 'Item quantity updated');
+        return $this->successResponse(new CartItemResource($item), 'Item quantity updated');
     }
 
     public function removeItem($itemId)
