@@ -59,4 +59,9 @@ class User extends Authenticatable
   {
     return $this->hasMany(Order::class);
   }
+
+  public function otp()
+  {
+      return $this->morphMany(Otp::class,'otpable');
+  }
 }

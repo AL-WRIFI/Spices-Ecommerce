@@ -11,7 +11,7 @@ class ChackOtpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,8 @@ class ChackOtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => ['required', 'numeric', 'digits:9'],
-            'code' => ['required', 'numeric', 'min:4', 'max:6'],
+            'phone' => 'required|numeric|digits:9',
+            'code' => 'required|numeric|digits:4',
             'device_token' => ['nullable'],
             'platform' => ['nullable', 'in:ios,android']
         ];

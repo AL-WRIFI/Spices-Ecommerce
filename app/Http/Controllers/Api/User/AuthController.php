@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Actions\Otp\SendOtpAction;
-use App\Enums\OTPTypeEnum;
+use App\Enums\Otp\OTPTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChackOtpRequest;
 use App\Http\Requests\LoginRequest;
@@ -24,7 +24,7 @@ class AuthController extends Controller
         $this->otpService = $otpService;
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request, SendOtpAction $sendOtpAction)
     {
         $data = $request->validated();
         $user = User::where('phone', $data['phone'])->first();
@@ -41,14 +41,14 @@ class AuthController extends Controller
             return $this->errorResponse(msg: __('User is not active'), code: 401);
         }
 
-        // $sendOtpAction->handle(model:$user, OTPTypeEnum:OTPTypeEnum::LOGIN, expiredMinutes:5);
+        $sendOtpAction->handle(model:$user, OTPTypeEnum:OTPTypeEnum::LOGIN, expiredMinutes:5);
 
-       // return $this->successResponse(msg:__('OTP Send Successfully'));
+        return $this->successResponse(msg:__('OTP Send Successfully'));
 
-        return $this->successResponse(data: [
-            'token' => $user->createToken('user_token')->plainTextToken,
-            'user' => $user,
-        ], msg: __('User logged in successfully'));
+        // return $this->successResponse(data: [
+        //     'token' => $user->createToken('user_token')->plainTextToken,
+        //     'user' => $user,
+        // ], msg: __('User logged in successfully'));
     }
 
     public function register(RegisterRequest $request)
@@ -69,7 +69,7 @@ class AuthController extends Controller
     public function verifyOtp(ChackOtpRequest $request)
     {
         $data = $request->validated();
-        $user = User::where('phone', $data['phone']);
+        $user = User::where('phone', $data['phone'])->first();
 
         $OTPStatusEnum = $this->otpService->chackOtp($user, OTPTypeEnum::LOGIN, $data['code']);
         if(!$OTPStatusEnum) return $this->errorResponse(msg:__('OTP is valid'), code:401);

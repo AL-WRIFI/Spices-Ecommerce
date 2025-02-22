@@ -2,8 +2,8 @@
 
 namespace App\Actions\Otp;
 
-use App\Enums\OTPTypeEnum;
-use App\Jobs\SendOtpSms;
+use App\Enums\Otp\OTPTypeEnum;
+use App\Jobs\SendOtpQueue;
 use App\Support\Services\Otp\OtpService;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +16,6 @@ class SendOtpAction
         $this->otpService = $otpService;
     }
 
-
     public function handle(Model $model, OTPTypeEnum $OTPTypeEnum, int $expiredMinutes)
     {
         $code = rand(1000, 9999);
@@ -25,7 +24,8 @@ class SendOtpAction
         $haveOldCode = $this->otpService->getSameTypeOtp($model, $OTPTypeEnum);
         if($haveOldCode) return false;
 
-        dispatch(new SendOtpSms($model, __('Your Otp is :').$code));
+        $this->otpService->send($model?->phone, $code." : جزيرة العطاء| رمز التحقق");
+        // dispatch(new SendOtpQueue($model, __('Your Otp is :').$code));
 
         return $this->otpService->createForModel($model, $payload);
     }

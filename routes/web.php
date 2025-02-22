@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\Api\User\AuthController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\EcommerceDashboard;

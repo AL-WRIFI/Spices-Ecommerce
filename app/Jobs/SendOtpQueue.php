@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Support\Services\Otp\OTPService;
 use App\Support\Services\Otp\Provider\Vonage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SendOtpSms implements ShouldQueue
+class SendOtpQueue implements ShouldQueue
 {
     use Dispatchable,InteractsWithQueue, Queueable, SerializesModels;
 
@@ -22,8 +23,8 @@ class SendOtpSms implements ShouldQueue
         $this->message = $message;
     }
 
-    public function handle(Vonage $vonage): void
+    public function handle(OTPService $OTPService): void
     {
-        return $vonage->sendOtp($this->model, $this->message);
+        $OTPService->send($this->model?->phone, $this->message);
     }
 }
