@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\Unit;
@@ -12,11 +13,12 @@ class ProductSeeder extends Seeder
 {
     public function run(): void
     {
+        $categories = Category::all();
         $subCategories = SubCategory::all();
         $units = Unit::all();
 
-        if ($subCategories->isEmpty() || $units->isEmpty()) {
-            $this->command->error('No subcategories or units found. Please seed them first.');
+        if ($subCategories->isEmpty() || $units->isEmpty() || $categories->isEmpty()) {
+            $this->command->error('No subcategories or units or categories. Please seed them first.');
             return;
         }
 
@@ -28,6 +30,7 @@ class ProductSeeder extends Seeder
                 'slug' => $faker->slug,
                 'price' => $faker->randomFloat(2, 10, 1000),
                 'sale_price' => $faker->randomFloat(2, 5, 900),
+                'category_id' => $categories->random()->id,
                 'sub_category_id' => $subCategories->random()->id,
                 'image' => 'https://picsum.photos/400/300?random=' . rand(10, 100),
                 'summary' => $faker->sentence(4),
