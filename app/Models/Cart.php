@@ -99,6 +99,11 @@ class Cart extends Model
 
     private function calculateDeliveryAmount()
     {
+        return round($this->distance(), 2);
+    }
+
+    public function distance()
+    {
         $userLatitude = $this->user?->latitude ?? 24.24522;
         $userLongitude = $this->user?->longitude ?? 43.23452;
 
@@ -109,13 +114,11 @@ class Cart extends Model
             return 0; 
         }
 
-        $distance = $this->calculateDistance(
+        return $this->calculateDistance(
             $userLatitude,
             $userLongitude,
             $storeLatitude,
             $storeLongitude
         );
-
-        return round($distance, 2);
     }
 }
