@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Support\Traits\Model\DistanceTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
-    use HasFactory;
+    use HasFactory, DistanceTrait;
 
     protected $fillable = ['user_id', 'coupon_id'];
 
@@ -34,13 +35,10 @@ class Cart extends Model
         return $this->hasMany(CartItem::class);
     }
 
-
     public function subtotal(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->cartItems->sum(function ($cartItem) {
-                return $cartItem->total_price;
-            })
+            get: fn () => $this->cartItems->sum(fn ($item) => $item->total_price)
         );
     }
 
@@ -65,31 +63,59 @@ class Cart extends Model
         );
     }
 
+
     protected function calculateDiscountAmount()
     {
-        if ($this->coupon) {
-            $coupon = $this->coupon;
-
-            if (!$coupon->isActive || ($coupon->valid_from && now()->lt($coupon->valid_from)) || ($coupon->valid_to && now()->gt($coupon->valid_to))) {
-                return 0;
-            }
-
-            if ($coupon->min_amount && $this->subtotal < $coupon->min_amount) {
-                return 0; 
-            }
-
-            if ($coupon->type === 'fixed') {
-                return min($coupon->amount, $this->subtotal);
-            } elseif ($coupon->type === 'percent') {
-                return ($coupon->amount / 100) * $this->subtotal;
-            }
+        if (!$this->isCouponValid()) {
+            return 0;
         }
 
-        return 0; 
+        $baseDiscount = $this->calculateBaseDiscount();
+
+        return $this->applyMaxDiscountLimit($baseDiscount);
     }
 
-    protected function calculateDeliveryAmount()
+    private function isCouponValid()
     {
-        return 0;
+        return $this->coupon && $this->coupon->isValid() && $this->subtotal >= $this->coupon->min_amount;
+    }
+
+    private function calculateBaseDiscount()
+    {
+        return match ($this->coupon->type) {
+            'fixed' => $this->coupon->amount,
+            'percentage' => ($this->subtotal * $this->coupon->amount) / 100,
+            default => 0,
+        };
+    }
+
+    private function applyMaxDiscountLimit($discount)
+    {
+        if ($this->coupon->max_discount_amount && $discount > $this->coupon->max_discount_amount) {
+            return $this->coupon->max_discount_amount;
+        }
+        return $discount;
+    }
+
+    private function calculateDeliveryAmount()
+    {
+        $userLatitude = $this->user?->latitude ?? 24.24522;
+        $userLongitude = $this->user?->longitude ?? 43.23452;
+
+        $storeLatitude = 23.34342;
+        $storeLongitude = 23.34563;
+
+        if (!$userLatitude || !$userLongitude || !$storeLatitude || !$storeLongitude) {
+            return 0; 
+        }
+
+        $distance = $this->calculateDistance(
+            $userLatitude,
+            $userLongitude,
+            $storeLatitude,
+            $storeLongitude
+        );
+
+        return round($distance, 2);
     }
 }
