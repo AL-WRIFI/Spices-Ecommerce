@@ -57,4 +57,51 @@ class CouponController extends Controller
         return $this->successResponse(data:[new CartResource($user->cart)], msg:'success');
 
     }
+
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'code' => 'required|string|max:255',
+            'type' => 'required|string',
+            'amount' => 'required|numeric',
+            'min_amount' => 'required|numeric',
+            'max_discount_amount' => 'required|numeric',
+            'status' => 'required|string',
+            'usage_limit' => 'nullable|numeric',
+            'used_count' => 'nullable|numeric',
+            'expiry_date' => 'nullable|date',
+        ]);
+
+        $coupon = Coupon::create($validated);
+
+        return response()->json([
+            'message' => 'Coupon created successfully',
+            'coupon' => $coupon,
+        ], 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'code' => 'required|string|max:255',
+            'type' => 'required|string',
+            'amount' => 'required|numeric',
+            'min_amount' => 'required|numeric',
+            'max_discount_amount' => 'required|numeric',
+            'status' => 'required|string',
+            'usage_limit' => 'nullable|numeric',
+            'used_count' => 'nullable|numeric',
+            'expiry_date' => 'nullable|date',
+        ]);
+
+        $coupon = Coupon::findOrFail($id);
+
+        $coupon->update($validated);
+
+        return response()->json([
+            'message' => 'Coupon updated successfully',
+            'coupon' => $coupon,
+        ], 200);
+    }
 }

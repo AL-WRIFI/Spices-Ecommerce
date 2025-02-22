@@ -68,6 +68,9 @@ Route::prefix('/user')->group(function () {
     Route::controller(CouponController::class)->prefix('coupon')->middleware('auth:sanctum')->group(function(){
         Route::post('/apply','apply');
         Route::post('/remove','remove');
+
+        Route::post('create','store');
+        Route::put('update/{id}','update');
     });
 
 });
