@@ -34,8 +34,11 @@ class OrderDetailsResource extends JsonResource
                 return [
                     'product_id' => $item->product_id,
                     'product_name' => $item->product_name,
+                    'image' => $item->product?->image,
                     'product_price' => $item->product_price,
                     'quantity' => $item->quantity,
+                    'category_id' => $item->product?->category_id,
+                    'sub_category_id' => $item->product?->sub_category_id
                 ];
             }),
         ];
