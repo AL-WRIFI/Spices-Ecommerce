@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Order\OrderStatusEnum;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -110,9 +111,6 @@ class Order extends Model
         return 0;
     }
 
-
-
-
     public function scopeForDriver(Builder $query, int $driverId): Builder
     {
         return $query->where('driver_id', $driverId);
@@ -134,5 +132,28 @@ class Order extends Model
     public function scopeFilterByPaymentMethod(Builder $query, ?string $paymentMethod): Builder
     {
         return $paymentMethod ? $query->where('payment_method', $paymentMethod) : $query;
+    }
+
+
+
+    public function scopePreviousOrders($query, $driverId)
+    {
+        return $query->where('driver_id', $driverId)->whereIn('status', [
+                OrderStatusEnum::DELIVERED->value,
+                OrderStatusEnum::CANCELLED->value,
+                OrderStatusEnum::REFUNDED->value,
+                OrderStatusEnum::FAILED->value,
+            ]);
+    }
+
+    public function scopeCurrentOrder($query, $driverId)
+    {
+        return $query->where('driver_id', $driverId)->whereIn('status', [
+                OrderStatusEnum::PROCESSING->value,
+                OrderStatusEnum::SHIPPED->value,
+                OrderStatusEnum::ON_WAY->value,
+            ])
+            ->orderBy('created_at', 'desc')
+            ->first();
     }
 }

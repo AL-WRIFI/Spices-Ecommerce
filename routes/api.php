@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Categories\CategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use App\Http\Controllers\Api\Coupon\CouponController;
+use App\Http\Controllers\Api\Driver\DriverOrderController;
 use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\User\CartController;
 use App\Http\Controllers\Api\User\AuthController;
@@ -83,18 +84,20 @@ Route::prefix('/driver')->group(function () {
     Route::controller(DriverAuthController::class)->prefix('auth')->group(function(){
         Route::post('/login', 'login');
     });
-    
+
     Route::controller(ProfileController::class)->prefix('profile')->middleware('auth:sanctum')->group(function(){
         Route::get('/','show')->name('profile.show');
         Route::put('/','update')->name('profile.update');
         Route::post('/change-password','changePassword');
     });
 
-    Route::controller(OrderController::class)->prefix('orders')->middleware('auth:sanctum')->group(function(){
-        Route::get('/ongoing-order','ongoing');
-        Route::get('/','fetch');
-        Route::post('/create','store');
-        Route::get('/{order_id}', 'show');
+    Route::controller(DriverOrderController::class)->prefix('orders')->middleware('auth:sanctum')->group(function(){
+        Route::get('/current','currentOrder');
+        Route::get('/stats','orderStats');
+        Route::get('/history','orderHistory');
+        Route::get('/show/{order_id}', 'show');
+        Route::put('/update-status','updateStatus');
+        Route::get('/activities/{order_id}','getActivities');
         Route::put('/cancel/{order_id}', 'cancelOrder');
     });
 });

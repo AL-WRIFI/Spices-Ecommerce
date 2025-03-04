@@ -12,7 +12,7 @@ use App\Models\Driver;
 use App\Models\Order;
 use App\Models\OrderActivity;
 use App\Support\Traits\Api\ApiResponseTrait;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 
 class DriverOrderController extends Controller
 {
@@ -35,24 +35,26 @@ class DriverOrderController extends Controller
         ]);
     }
 
+    public function currentOrder(Request $request)
+    {
+        $driver = $request->user();
+
+        $order = Order::currentOrder($driver->id);
+
+        if (!$order) {
+            return $this->errorResponse(msg: 'لا يوجد طلب حالي.', code: 404);
+        }
+
+        return $this->successResponse(data: ['order' => new OrderResource($order)]);
+    }
+
     public function orderHistory(OrderHistoryRequest $request)
     {
         $driver = $request->user();
 
-        $query = Order::forDriver($driver->id)->filterByStatus($request->input('status'))
-            ->filterByDateRange(
-                $request->input('from_date'),
-                $request->input('to_date')
-            )
-            ->filterByPaymentMethod($request->input('payment_method'))
-            ->filterByAmountRange(
-                $request->input('min_amount'),
-                $request->input('max_amount')
-            );
-
-        $orders = $query->orderBy('created_at', 'desc')->paginate(10);
-
-        return $this->successResponse(data:[ 'orders' => OrderResource::collection($orders) ]);
+        $orders = Order::previousOrders($driver->id)->orderBy('created_at', 'desc')->paginate(10);
+    
+        return $this->successResponse(data: ['orders' => OrderResource::collection($orders)]);
     }
 
     public function orderStats(Request $request)
