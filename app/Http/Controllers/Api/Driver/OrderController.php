@@ -14,7 +14,7 @@ use App\Models\OrderActivity;
 use App\Support\Traits\Api\ApiResponseTrait;
 use Illuminate\Http\Request;
 
-class DriverOrderController extends Controller
+class OrderController extends Controller
 {
     use ApiResponseTrait;
 

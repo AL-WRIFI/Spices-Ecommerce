@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\Categories\CategoryController;
 use App\Http\Controllers\Admin\Categories\SubCategoryController;
 use App\Http\Controllers\Api\Coupon\CouponController;
-use App\Http\Controllers\Api\Driver\DriverOrderController;
+use App\Http\Controllers\Api\Driver\OrderController as DriverOrderController;
 use App\Http\Controllers\Api\Product\ProductController;
 use App\Http\Controllers\Api\User\CartController;
 use App\Http\Controllers\Api\User\AuthController;
@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Driver\AuthController as DriverAuthController;
 use App\Http\Controllers\Api\User\FavoriteController;
 use App\Http\Controllers\Api\User\OrderController;
 use App\Http\Controllers\Api\User\ProfileController;
+use App\Http\Controllers\Api\Driver\ProfileController as DriverProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -85,10 +86,8 @@ Route::prefix('/driver')->group(function () {
         Route::post('/login', 'login');
     });
 
-    Route::controller(ProfileController::class)->prefix('profile')->middleware('auth:sanctum')->group(function(){
-        Route::get('/','show')->name('profile.show');
-        Route::put('/','update')->name('profile.update');
-        Route::post('/change-password','changePassword');
+    Route::controller(DriverProfileController::class)->prefix('profile')->middleware('auth:sanctum')->group(function(){
+        Route::get('/','fetch');
     });
 
     Route::controller(DriverOrderController::class)->prefix('orders')->middleware('auth:sanctum')->group(function(){
