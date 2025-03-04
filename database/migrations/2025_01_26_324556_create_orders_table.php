@@ -16,7 +16,7 @@ return new class extends Migration
             $table->float('subtotal')->default(0);
             $table->float('discount_amount')->default(0);
             $table->string('coupon')->nullable();
-            $table->float('delivery_amount')->default(0);
+            $table->string('delivery_amount')->default(0);
             $table->float('total_amount')->default(0);
             $table->string('status');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
