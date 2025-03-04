@@ -41,14 +41,14 @@ class AuthController extends Controller
             return $this->errorResponse(msg: __('User is not active'), code: 401);
         }
 
-        // $sendOtpAction->handle(model:$user, OTPTypeEnum:OTPTypeEnum::LOGIN, expiredMinutes:5);
+        $sendOtpAction->handle(model:$user, OTPTypeEnum:OTPTypeEnum::LOGIN, expiredMinutes:5);
 
-        // return $this->successResponse(msg:__('OTP Send Successfully'));
+        return $this->successResponse(msg:__('OTP Send Successfully'));
 
-        return $this->successResponse(data: [
-            'token' => $user->createToken('user_token')->plainTextToken,
-            'user' => $user,
-        ], msg: __('User logged in successfully'));
+        // return $this->successResponse(data: [
+        //     'token' => $user->createToken('user_token')->plainTextToken,
+        //     'user' => $user,
+        // ], msg: __('User logged in successfully'));
     }
 
     public function register(RegisterRequest $request)
