@@ -8,14 +8,17 @@ use App\Models\Location\District;
 use App\Models\Location\Region;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 class Driver extends Model
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
 
     protected $fillable = [
         'name',
         'phone',
+        'password',
         'salary',
         'image',
         'identity_image',
