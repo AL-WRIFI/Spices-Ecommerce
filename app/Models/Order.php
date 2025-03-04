@@ -154,6 +154,6 @@ class Order extends Model
                 OrderStatusEnum::ON_WAY->value,
             ])
             ->orderBy('created_at', 'desc')
-            ->first();
+            ->first() ?? false;
     }
 }

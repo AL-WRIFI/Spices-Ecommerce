@@ -39,10 +39,10 @@ class DriverOrderController extends Controller
     {
         $driver = $request->user();
 
-        $order = Order::currentOrder($driver->id);
+        $order = Order::currentOrder($driver->id) ?? false;
 
         if (!$order) {
-            return $this->errorResponse(msg: 'لا يوجد طلب حالي.', code: 404);
+            return $this->errorResponse(msg: 'There is no order', code: 404);
         }
 
         return $this->successResponse(data: ['order' => new OrderResource($order)]);
