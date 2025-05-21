@@ -24,7 +24,15 @@
 ])
 
 <script>
+
   var createProductRoute = "{{ route('products.create') }}";
+
+  function confirmDelete(action) {
+    const form = document.getElementById('deleteForm');
+    form.action = action;
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    modal.show();
+  }
 </script>
 @endsection
 
@@ -183,17 +191,39 @@
             <td>
               <div class="d-inline-block text-nowrap">
                 <button class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light"><i class="ti ti-edit" onclick="window.location='{{ route('products.edit', $product->id) }}'"></i></button>
-                <button class="btn btn-sm btn-icon btn-text-secondary rounded-pill waves-effect waves-light dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-md"></i></button>
-                <div class="dropdown-menu dropdown-menu-end m-0">
-                  <a href="javascript:0;" class="dropdown-item">View</a>
-                  <a href="javascript:0;" class="dropdown-item">Suspend</a>
-                </div>
+                <button class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light"
+                  onclick="confirmDelete('{{ route('products.destroy', $product->id) }}')">
+                  <i class="ti ti-trash"></i>
+                </button>
+
               </div>
             </td>
           </tr>
         @endforeach
       </tbody>
     </table>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form id="deleteForm" method="POST">
+      @csrf
+      @method('DELETE')
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">تأكيد الحذف</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body">
+          هل أنت متأكد أنك تريد حذف هذا المنتج؟
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-danger">حذف</button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
 
