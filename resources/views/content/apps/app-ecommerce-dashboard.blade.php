@@ -324,7 +324,7 @@
           @forelse ($popularProducts as $product)
           <li class="d-flex {{ !$loop->last ? 'mb-6' : '' }}">
             <div class="me-4">
-              <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('assets/img/products/default.png') }}" alt="{{ $product->name }}" class="rounded" width="46">
+              <img src="{{ $product->image ? $product->image : asset('assets/img/products/default.png') }}" alt="{{ $product->name }}" class="rounded" width="46">
             </div>
             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
               <div class="me-2">
