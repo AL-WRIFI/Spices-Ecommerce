@@ -25,7 +25,7 @@ class ProductController extends Controller
             ],200);
         }
 
-        $products = Product::with(['subCategory', 'unit'])->get();
+        $products = Product::with(['subCategory', 'unit'])->latest()->get();
         $categories = SubCategory::pluck('name', 'id')->toArray();    
 
         return view('admin.products.index', compact('products', 'categories'));

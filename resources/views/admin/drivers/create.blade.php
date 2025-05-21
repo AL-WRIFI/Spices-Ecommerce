@@ -144,7 +144,7 @@
           </div>
         </div>
 
-        <div class="card mb-6">
+        {{-- <div class="card mb-6">
           <div class="card-header">
             <h5 class="card-tile mb-0">{{ __('Address Information') }}</h5>
           </div>
@@ -197,7 +197,7 @@
               <textarea class="form-control" id="driver-address" placeholder="{{ __('Address') }}" name="address">{{ isset($driver) ? $driver->address : old('address') }}</textarea>
             </div>
           </div>
-        </div>
+        </div> --}}
       </div>
 
       <div class="col-12 col-lg-4">
