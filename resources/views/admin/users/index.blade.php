@@ -18,7 +18,7 @@
 @endsection
 
 @section('page-script')
-@vite('resources/assets/js/customer-all.js')
+{{-- @vite('resources/assets/js/customer-all.js') --}}
 @endsection
 
 @section('content')

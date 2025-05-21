@@ -11,7 +11,7 @@ class FetchProductAction
     public function handle(array $filters = [])
     {
         $query = (new Product)->newQuery();
-        return $this->applyFilters($filters, $query)->with(['subCategory', 'unit'])->simplePaginate(10);;
+        return $this->applyFilters($filters, $query)->with(['subCategory', 'unit'])->latest()->simplePaginate(10);;
     }
 
 

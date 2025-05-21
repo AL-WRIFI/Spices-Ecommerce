@@ -35,7 +35,7 @@ class SubCategoryController extends Controller
             'name' => 'required|string|max:255',
             'category_id' => 'required',
             'description' => 'nullable|string',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif',
+            'image' => 'required|image',
         ]);
 
         $data = $request->only(['name', 'category_id', 'description']);
@@ -61,7 +61,7 @@ class SubCategoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'required',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif',
+            'image' => 'nullable|image',
         ]);
     
         $data = $request->only(['name', 'description', 'category_id']);

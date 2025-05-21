@@ -25,7 +25,7 @@ class ProductController extends Controller
             ],200);
         }
 
-        $products = Product::with(['subCategory', 'unit'])->get();
+        $products = Product::with(['subCategory', 'unit'])->latest()->get();
         $categories = SubCategory::pluck('name', 'id')->toArray();    
 
         return view('admin.products.index', compact('products', 'categories'));
@@ -47,9 +47,9 @@ class ProductController extends Controller
             'sale_price' => 'nullable|numeric',
             'category_id' => 'required|exists:categories,id',
             'sub_category_id' => 'required|exists:sub_categories,id',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif',
+            'image' => 'required|image',
             'gallery' => 'nullable|array',
-            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
+            'gallery.*' => 'image',
             'summary' => 'nullable|string',
             'description' => 'nullable|string',
             'unit_id' => 'required|exists:units,id',
@@ -113,9 +113,9 @@ class ProductController extends Controller
             'sale_price' => 'nullable|numeric',
             'category_id' => 'required|exists:categories,id',
             'sub_category_id' => 'required|exists:sub_categories,id',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif',
+            'image' => 'nullable|image',
             'gallery' => 'nullable|array',
-            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
+            'gallery.*' => 'image',
             'summary' => 'nullable|string',
             'description' => 'nullable|string',
             'unit_id' => 'required|exists:units,id',

@@ -15,7 +15,7 @@ class DriverController extends Controller
 
     public function index()
     {
-        $drivers = Driver::with('region')->get();
+        $drivers = Driver::with('region')->latest()->get();
         $totalDrivers = Driver::count();
         $activeDrivers = Driver::where('status', 'active')->count();
         $inactiveDrivers = Driver::where('status', 'inactive')->count();
@@ -55,8 +55,8 @@ class DriverController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'salary' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'identity_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image',
+            'identity_image' => 'required|image',
             'identity_number' => 'required|string|max:255',
             'iban' => 'required|string|max:255',
             'country_id' => 'nullable|exists:countries,id',
@@ -74,7 +74,7 @@ class DriverController extends Controller
         }
 
         if ($request->hasFile('identity_image')) {
-            $path = $request->file('image')->store('images', 'public');
+            $path = $request->file('identity_image')->store('images', 'public');
             $url = Storage::url($path);
             $identityImagePath = $url;
         }
@@ -119,8 +119,8 @@ class DriverController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'salary' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'identity_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image',
+            'identity_image' => 'nullable|image',
             'identity_number' => 'required|string|max:255',
             'iban' => 'required|string|max:255',
             'country_id' => 'nullable|exists:countries,id',
@@ -139,7 +139,7 @@ class DriverController extends Controller
         }
 
         if ($request->hasFile('identity_image')) {
-            $identityImagePath = $request->file('image')->store('images', 'public');
+            $identityImagePath = $request->file('identity_image')->store('images', 'public');
             $oldImagePath = $driver->identity_image;
             $driver->identity_image = $identityImagePath;
             Storage::delete($oldImagePath);

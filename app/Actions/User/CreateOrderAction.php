@@ -52,11 +52,13 @@ class CreateOrderAction
             'subtotal' => $cart->subtotal,
             'discount_amount' => $cart->discount_amount,
             'coupon_id' => $cart->coupon_id,
-            'coupon_code' => $cart->coupon->code ?? null,
-            'delivery_amount' => $cart->delivery_amount,
+            'coupon_code' => $cart?->coupon?->code ?? null,
+            'delivery_amount' => $cart->delivery_amount ?? 0,
             'total_amount' => $cart->total_amount,
             'status' => 'pending',
             'user_id' => $user->id,
+            // 'latitude' => $user->
+            // 'longitude' => $user->
             'shipping_address' => $data['shipping_address'] ?? null,
             'payment_method' => $data['payment_method'],
         ];
