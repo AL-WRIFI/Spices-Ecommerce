@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'eCommerce Product Category - Apps')
+@section('title', 'Product Category')
 
 @section('vendor-style')
 @vite([

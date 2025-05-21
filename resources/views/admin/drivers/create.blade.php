@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', '{{ __("Add/Edit Driver - Apps") }}')
+@section('title', '{{ __("Add/Edit Driver") }}')
 
 @section('vendor-style')
 @vite([

@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Update Product - Apps')
+@section('title', 'Update Product')
 
 @section('vendor-style')
 @vite([

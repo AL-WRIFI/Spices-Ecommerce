@@ -4,7 +4,7 @@ return [
   "creatorName" => "جزيرة العطاء",
   // "creatorUrl" => "https://pixinvent.com",
   "templateName" => "جزيرة العطاء",
-  "templateSuffix" => "Bootstrap Admin Template",
+  "templateSuffix" => "",
   "templateVersion" => "2.0.0",
   "templateFree" => false,
   "templateDescription" => "Start your development with a Dashboard for Bootstrap 5",

@@ -1,5 +1,5 @@
 @extends('layouts/layoutMaster')
-@section('title', 'Drivers List - Apps')
+@section('title', 'Drivers List')
 
 @section('vendor-style')
 @vite([

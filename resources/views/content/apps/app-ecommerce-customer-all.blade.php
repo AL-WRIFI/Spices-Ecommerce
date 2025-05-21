@@ -1,5 +1,5 @@
 @extends('layouts/layoutMaster')
-@section('title', 'eCommerce Customer All - Apps')
+@section('title', 'Customer All')
 
 @section('vendor-style')
 @vite([

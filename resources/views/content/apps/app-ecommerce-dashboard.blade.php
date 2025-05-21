@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', __('eCommerce Dashboard - Apps'))
+@section('title', __('Dashboard'))
 
 @section('vendor-style')
 @vite([
