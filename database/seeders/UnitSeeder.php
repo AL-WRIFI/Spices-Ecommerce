@@ -14,12 +14,8 @@ class UnitSeeder extends Seeder
             ['name' => 'Piece'],
             ['name' => 'Kilogram'],
             ['name' => 'Gram'],
-            ['name' => 'Liter'],
-            ['name' => 'Milliliter'],
-            ['name' => 'Meter'],
-            ['name' => 'Centimeter'],
-            ['name' => 'Dozen'],
             ['name' => 'Pack'],
+            ['name' => 'Bottle'],
             ['name' => 'Box'],
         ];
 

@@ -143,20 +143,7 @@
             </td>
             <td>
               <span class="text-truncate d-flex align-items-center text-heading">
-                @if ($product->subCategory->name == 'Household')
-                  <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-warning me-4 p-3"><i class="ti ti-home-2 ti-sm"></i></span>
-                @elseif ($product->subCategory->name == 'Office')
-                  <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-info me-4 p-3"><i class="ti ti-briefcase ti-sm"></i></span>
-                @elseif ($product->subCategory->name == 'Electronics')
-                  <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-danger me-4 p-3"><i class="ti ti-device-mobile ti-sm"></i></span>
-                @elseif ($product->subCategory->name == 'Shoes')
-                  <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-success me-4"><i class="ti ti-shoe ti-sm"></i></span>
-                @elseif ($product->subCategory->name == 'Accessories')
-                  <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-secondary me-4"><i class="ti ti-device-watch ti-sm"></i></span>
-                @elseif ($product->subCategory->name == 'Game')
-                  <span class="avatar-sm rounded-circle d-flex justify-content-center align-items-center bg-label-primary me-4"><i class="ti ti-device-gamepad-2 ti-sm"></i></span>
-                @endif
-                {{ $product->subCategory->name }}
+                {{ $product?->subCategory?->name }}
               </span>
             </td>
             <td>

@@ -78,52 +78,7 @@
           "slug": "app-ecommerce-customer-all"
         }
       ]
-    },
-    {
-      "url": "app/ecommerce/manage/reviews",
-      "name": "Manage Reviews",
-      "slug": "app-ecommerce-manage-reviews"
-    },
-    {
-      "url": "app/ecommerce/referrals",
-      "name": "Referrals",
-      "slug": "app-ecommerce-referrals"
-    },
-    {
-      "name": "Settings",
-      "slug": "app-ecommerce-settings",
-      "submenu": [
-        {
-          "url": "app/ecommerce/settings/details",
-          "name": "Store details",
-          "slug": "app-ecommerce-settings-details"
-        },
-        {
-          "url": "app/ecommerce/settings/payments",
-          "name": "Payments",
-          "slug": "app-ecommerce-settings-payments"
-        },
-        {
-          "url": "app/ecommerce/settings/checkout",
-          "name": "Checkout",
-          "slug": "app-ecommerce-settings-checkout"
-        },
-        {
-          "url": "app/ecommerce/settings/shipping",
-          "name": "Shipping & Delivery",
-          "slug": "app-ecommerce-settings-shipping"
-        },
-        {
-          "url": "app/ecommerce/settings/locations",
-          "name": "Locations",
-          "slug": "app-ecommerce-settings-locations"
-        },
-        {
-          "url": "app/ecommerce/settings/notifications",
-          "name": "Notifications",
-          "slug": "app-ecommerce-settings-notifications"
-        }
-      ]
     }
+    
   ]
 }

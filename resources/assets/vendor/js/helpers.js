@@ -727,6 +727,7 @@ const Helpers = {
       const containerFluid = [].slice.call(document.querySelectorAll('.container-fluid')) // To get container-fluid
       const containerXxl = [].slice.call(document.querySelectorAll('.container-xxl')) // To get container-xxl
       const verticalMenu = document.querySelector('.menu-vertical')
+      const userMenu = document.querySelector('.menu-vertical')
       let horizontalMenu = false // For horizontal menu
       let horizontalMenuArea // For horizontal menu area
       // Condition to check if layout is horizontal menu
@@ -748,6 +749,12 @@ const Helpers = {
         }
         // Remove container fluid class from navbar area in vertical menu
         if (verticalMenu) {
+          if (containerFluid.some(el => [navbarArea].includes(el))) {
+            this._removeClass('container-fluid', [navbarArea])
+            this._addClass('container-xxl', [navbarArea])
+          }
+        }
+        if (userMenu) {
           if (containerFluid.some(el => [navbarArea].includes(el))) {
             this._removeClass('container-fluid', [navbarArea])
             this._addClass('container-xxl', [navbarArea])
@@ -783,6 +790,12 @@ const Helpers = {
         }
         // Remove container xxl class from navbar area in vertical menu
         if (verticalMenu) {
+          if (containerXxl.some(el => [navbarArea].includes(el))) {
+            this._removeClass('container-xxl', [navbarArea])
+            this._addClass('container-fluid', [navbarArea])
+          }
+        }
+        if (userMenu) {
           if (containerXxl.some(el => [navbarArea].includes(el))) {
             this._removeClass('container-xxl', [navbarArea])
             this._addClass('container-fluid', [navbarArea])
