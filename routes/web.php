@@ -77,5 +77,7 @@ Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
 Route::post('/orders/appoint-driver', [OrderController::class, 'appointDriver'])->name('orders.appointDriver');
+// Route::post('/orders/changeStatus/{order}', [OrderController::class, 'changeStatus'])->name('orders.changeStatus');
+Route::post('/orders/changeStatus/{order}', [OrderController::class, 'changeStatus'])->name('orders.changeStatus');
 
 Route::resource('users', UserController::class);

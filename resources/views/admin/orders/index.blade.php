@@ -1,3 +1,7 @@
+@php
+  use App\Enums\Order\OrderStatusEnum;
+@endphp
+
 @extends('layouts/layoutMaster')
 
 @section('title', __('Order List'))
@@ -28,6 +32,24 @@ $('#shareProject').on('show.bs.modal', function (event) {
     $(this).find('input[name="order_id"]').val(orderId);
 });
 </script>
+<script>
+  const changeStatusModal = document.getElementById('changeStatusModal');
+  const changeStatusForm = document.getElementById('changeStatusForm');
+
+  changeStatusModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const orderId = button.getAttribute('data-order-id');
+    const orderStatus = button.getAttribute('data-order-status');
+
+    const select = document.getElementById('modal_order_status');
+    select.value = orderStatus;
+
+    // ✅ هنا الأهم:
+    changeStatusForm.action = `/orders/changeStatus/${orderId}`;
+  });
+</script>
+
+
 @endsection
 
 @section('content')
@@ -140,17 +162,24 @@ $('#shareProject').on('show.bs.modal', function (event) {
                 <span class="badge bg-label-danger">{{ __('Pending') }}</span>
               @endif
             </td>
+            
+            @php $status = OrderStatusEnum::tryFrom($order->status); @endphp
+
             <td>
-              @if ($order->status === 'completed')
-                <span class="badge bg-label-success">{{ __('Completed') }}</span>
-              @elseif ($order->status === 'pending')
-                <span class="badge bg-label-warning">{{ __('Pending') }}</span>
-              @elseif ($order->status === 'refunded')
-                <span class="badge bg-label-info">{{ __('Refunded') }}</span>
-              @elseif ($order->status === 'failed')
-                <span class="badge bg-label-danger">{{ __('Failed') }}</span>
-              @endif
+              <button type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#changeStatusModal"
+                  data-order-id="{{ $order->id }}"
+                  data-order-status="{{ $order->status }}">
+            <span class="badge bg-label-primary">
+              {{ $order->status }}
+            </span>
+          </button>
+
             </td>
+
+
             <td>
               @if ($order->driver_appointed)
                 <span class="badge bg-label-success">{{ __('Yes') }}</span>
@@ -179,6 +208,51 @@ $('#shareProject').on('show.bs.modal', function (event) {
         @endforeach
       </tbody>
     </table>
+
+
+    <!-- Change Order Status Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="changeStatusModal" tabindex="-1" aria-labelledby="changeStatusModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form id="changeStatusForm" method="POST" class="modal-content">
+          @csrf
+          <div class="modal-header">
+            <h5 class="modal-title" id="changeStatusModalLabel">{{ __('Change Order Status') }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" name="_method" value="POST">
+            <div class="mb-3">
+              <label for="order_status" class="form-label">{{ __('Select Status') }}</label>
+              <select class="form-select" name="status" id="modal_order_status" required>
+                @php
+                  $statuses = [
+                    'pending' => __('Pending'),
+                    'processing' => __('Processing'),
+                    'shipped' => __('Shipped'),
+                    'on_way' => __('On Way'),
+                    'delivered' => __('Delivered'),
+                    'cancelled' => __('Cancelled'),
+                    'refunded' => __('Refunded'),
+                    'failed' => __('Failed'),
+                  ];
+                @endphp
+
+                @foreach ($statuses as $key => $label)
+                  <option value="{{ $key }}">{{ $label }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
   </div>
 </div>
 

@@ -202,29 +202,29 @@
         @endforeach
       </tbody>
     </table>
-  </div>
-</div>
 
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <form id="deleteForm" method="POST">
-      @csrf
-      @method('DELETE')
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">تأكيد الحذف</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
-        </div>
-        <div class="modal-body">
-          هل أنت متأكد أنك تريد حذف هذا المنتج؟
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">إلغاء</button>
-          <button type="submit" class="btn btn-danger">حذف</button>
-        </div>
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form id="deleteForm" method="POST">
+          @csrf
+          @method('DELETE')
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">تأكيد الحذف</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+            </div>
+            <div class="modal-body">
+              هل أنت متأكد أنك تريد حذف هذا المنتج؟
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">إلغاء</button>
+              <button type="submit" class="btn btn-danger">حذف</button>
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
+    </div>
+  </div>  
 </div>
 
 @endsection
