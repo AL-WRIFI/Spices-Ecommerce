@@ -136,17 +136,25 @@ class DriverController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $oldImagePath = $driver->image;
-            $driver->image = $imagePath;
-            Storage::delete($oldImagePath);
+            if ($driver->image) {
+                $oldImagePath = str_replace('/storage', 'public', $driver->image);
+                Storage::delete($oldImagePath);
+            }
+    
+            $path = $request->file('image')->store('images', 'public');
+            $url = Storage::url($path);
+            $imagePath = $url;
         }
 
         if ($request->hasFile('identity_image')) {
-            $identityImagePath = $request->file('identity_image')->store('images', 'public');
-            $oldImagePath = $driver->identity_image;
-            $driver->identity_image = $identityImagePath;
-            Storage::delete($oldImagePath);
+            if ($driver->identity_image) {
+                $oldImagePath = str_replace('/storage', 'public', $driver->identity_image);
+                Storage::delete($oldImagePath);
+            }
+    
+            $path = $request->file('identity_image')->store('images', 'public');
+            $url = Storage::url($path);
+            $identityImagePath = $url;
         }
 
         $driver->update([
@@ -161,6 +169,8 @@ class DriverController extends Controller
             'district_id' => $request->district_id,
             'address' => $request->address,
             'status' => $request->status,
+            'image' => $request->hasFile('image') ? $imagePath : $driver->image,
+            'identity_image' => $request->hasFile('identity_image') ? $identityImagePath : $driver->identity_image,
             'password' => $request->password ? Hash::make($request->password) : $driver->password,
         ]);
 
