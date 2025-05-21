@@ -279,8 +279,8 @@
   "Dispatched for delivery": "تم الشحن للتسليم",
   "Package has left an Amazon facility, NY": "غادرت الطرد منشأة أمازون، نيويورك",
   "Package will be delivered by tomorrow": "سيتم تسليم الطرد بحلول الغد",
-
-
+  "Password" : "كلمة المرور",
+  "Confirm Password" : "تأكيد كلمة المرور",
   "Customers": "العملاء",
   "Add Customer": "إضافة عميل",
   "Customer Id": "رقم العميل",

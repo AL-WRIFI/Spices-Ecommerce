@@ -127,6 +127,17 @@
               <label class="form-label" for="driver-iban">{{ __('IBAN') }}</label>
               <input type="text" class="form-control" id="driver-iban" placeholder="{{ __('IBAN') }}" name="iban" value="{{ isset($driver) ? $driver->iban : old('iban') }}" required>
             </div>
+
+            <div class="row mb-6">
+            <div class="col">
+              <label class="form-label" for="driver-password">{{ __('Password') }}</label>
+              <input type="password" class="form-control" id="driver-password" name="password" {{ isset($driver) ? '' : 'required' }}>
+            </div>
+            <div class="col">
+              <label class="form-label" for="driver-password_confirmation">{{ __('Confirm Password') }}</label>
+              <input type="password" class="form-control" id="driver-password_confirmation" name="password_confirmation" {{ isset($driver) ? '' : 'required' }}>
+            </div>
+          </div>
             <div class="mb-6">
               <label class="form-label" for="driver-image">{{ __('Image') }}</label>
               <input type="file" class="form-control" id="driver-image" name="image" accept="image/*">
@@ -136,7 +147,7 @@
             </div>
             <div class="mb-6">
               <label class="form-label" for="driver-identity-image">{{ __('Identity Image') }}</label>
-              <input type="file" class="form-control" id="driver-identity-image" name="identity_image" accept="image/*" required>
+              <input type="file" class="form-control" id="driver-identity-image" name="identity_image" accept="image/*">
               @if(isset($driver) && $driver->identity_image)
                 <img src="{{ asset($driver->identity_image) }}" alt="{{ __('Identity Image') }}" class="mt-2" style="max-width: 200px;">
               @endif
@@ -144,61 +155,10 @@
           </div>
         </div>
 
-        {{-- <div class="card mb-6">
-          <div class="card-header">
-            <h5 class="card-tile mb-0">{{ __('Address Information') }}</h5>
-          </div>
-          <div class="card-body">
-            <div class="mb-6">
-              <label class="form-label" for="driver-country">{{ __('Country') }}</label>
-              <select class="form-select" id="driver-country" name="country_id" required>
-                <option value="">{{ __('Select Country') }}</option>
-                @foreach($countries as $country)
-                  <option value="{{ $country->id }}" {{ (isset($driver) && $driver->country_id == $country->id) ? 'selected' : '' }}>{{ $country->name }}</option>
-                @endforeach
-              </select>
-            </div>
-            
-            <!-- Region Dropdown -->
-            <div class="mb-6">
-              <label class="form-label" for="driver-region">{{ __('Region') }}</label>
-              <select class="form-select" id="driver-region" name="region_id" required>
-                <option value="">{{ __('Select Region') }}</option>
-                @foreach($regions as $region)
-                  <option value="{{ $region->id }}" {{ (isset($driver) && $driver->region_id == $region->id) ? 'selected' : '' }}>{{ $region->name }}</option>
-                @endforeach
-              </select>
-            </div>
 
-            <!-- City Dropdown -->
-            <div class="mb-6">
-              <label class="form-label" for="driver-city">{{ __('City') }}</label>
-              <select class="form-select" id="driver-city" name="city_id" required>
-                <option value="">{{ __('Select City') }}</option>
-                @foreach($cities as $city)
-                  <option value="{{ $city->id }}" {{ (isset($driver) && $driver->city_id == $city->id) ? 'selected' : '' }}>{{ $city->name }}</option>
-                @endforeach
-              </select>
-            </div>
-
-            <!-- District Dropdown -->
-            <div class="mb-6">
-              <label class="form-label" for="driver-district">{{ __('District') }}</label>
-              <select class="form-select" id="driver-district" name="district_id" required>
-                <option value="">{{ __('Select District') }}</option>
-                @foreach($districts as $district)
-                  <option value="{{ $district->id }}" {{ (isset($driver) && $driver->district_id == $district->id) ? 'selected' : '' }}>{{ $district->name }}</option>
-                @endforeach
-              </select>
-            </div>
-
-            <div class="mb-6">
-              <label class="form-label" for="driver-address">{{ __('Address') }}</label>
-              <textarea class="form-control" id="driver-address" placeholder="{{ __('Address') }}" name="address">{{ isset($driver) ? $driver->address : old('address') }}</textarea>
-            </div>
-          </div>
-        </div> --}}
       </div>
+
+    
 
       <div class="col-12 col-lg-4">
         <div class="card mb-6">

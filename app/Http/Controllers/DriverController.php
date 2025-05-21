@@ -8,6 +8,7 @@ use App\Models\Location\Region;
 use App\Models\Location\City;
 use App\Models\Location\District;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DriverController extends Controller
@@ -65,6 +66,7 @@ class DriverController extends Controller
             'district_id' => 'nullable|exists:districts,id',
             'address' => 'nullable|string',
             'status' => 'required|in:active,inactive',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         if ($request->hasFile('image')) {
@@ -93,6 +95,7 @@ class DriverController extends Controller
             'district_id' => $request->district_id,
             'address' => $request->address,
             'status' => $request->status,
+            'password' => Hash::make($request->password),
         ]);
 
         return redirect()->route('drivers.index')->with('success', 'تم إضافة السائق بنجاح.');
@@ -129,6 +132,7 @@ class DriverController extends Controller
             'district_id' => 'nullable|exists:districts,id',
             'address' => 'nullable|string',
             'status' => 'required|in:active,inactive',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         if ($request->hasFile('image')) {
@@ -157,6 +161,7 @@ class DriverController extends Controller
             'district_id' => $request->district_id,
             'address' => $request->address,
             'status' => $request->status,
+            'password' => $request->password ? Hash::make($request->password) : $driver->password,
         ]);
 
         return redirect()->route('drivers.index')->with('success', 'تم تحديث بيانات السائق بنجاح.');

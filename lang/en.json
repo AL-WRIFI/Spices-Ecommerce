@@ -325,7 +325,8 @@
   "No orders being prepared.": "No orders being prepared.",
   "No orders currently shipping.": "No orders currently shipping.",
   "Last 28 Days": "Last 28 Days",
-  "Last Year": "Last Year"
-
+  "Last Year": "Last Year",
+  "Password" : "Password",
+  "Confirm Password" : "Confirm Password"
 
 }
