@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,5 +15,12 @@ class EndCategory extends Model
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class, 'sub_category_id', 'id');
+    }
+
+    public function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => asset($value),
+        );
     }
 }
