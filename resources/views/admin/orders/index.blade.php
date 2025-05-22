@@ -187,7 +187,7 @@ $('#shareProject').on('show.bs.modal', function (event) {
                 <span class="badge bg-label-danger">{{ __('No') }}</span>
               @endif
             </td>
-            <td>{{ $order->driver ? $order->driver->name : 'N/A' }}</td>
+            <td>{{ $order->driver_id ? $order->driver->name : 'N/A' }}</td>
             <td>
               <div class="d-inline-block text-nowrap">
                 <button class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#shareProject" data-order-id="{{ $order->id }}">

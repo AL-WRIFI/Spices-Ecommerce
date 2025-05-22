@@ -39,7 +39,7 @@ class OrderController extends Controller
         $failedOrdersCount = Order::where('status', 'failed')->count();
 
         return view('admin.orders.index', [
-            'orders' => $orders,
+            'orders' => $orders->load('user', 'driver', 'coupon'),
             'drivers' => $drivers,
             'pendingPaymentCount' => $pendingPaymentCount,
             'completedOrdersCount' => $completedOrdersCount,
@@ -56,18 +56,34 @@ class OrderController extends Controller
 
     public function appointDriver(AppointDriverRequest $request, AppointDriverAction $appointDriverAction)
     {
+        $data = $request->validated();
         Log::info('appointDriver', [$request->validated()]);
         try{
-            $appointed = $appointDriverAction->handle(data: $request->validated());
-            Log::info('appointDriver', [$appointed]);
-            if($appointed) {
+            $driver = Driver::find($data['driver_id']);
+            $order = Order::find($data['order_id']);
+            if($driver->has_order == 1 || $order->driver_appointed == 1) {
+                return  redirect()->route('orders.index')->with('error', 'driver_appointed or driver has order');
+            }else {
+                $order->update([
+                    'status' => 'processing',
+                    'driver_id' => $data['driver_id'],
+                    "driver_appointed" => 1,
+                ]);
+                
+                $driver->update([
+                    'has_order' => 1,
+                ]);
                 return redirect()->route('orders.index')->with('success', 'Driver appointed successfully.');
             }
-            return redirect()->route('orders.index')->with('success', 'Driver appointed successfully.');
+            // $appointed = $appointDriverAction->handle(data: $request->validated());
+            // Log::info('appointDriver', [$appointed]);
+            // if($appointed) {
+            // }
+            // return redirect()->route('orders.index')->with('success', 'Driver appointed successfully.');
 
         } catch (Exception $e) {
             Log::error("message", [$e->getMessage()]);
-            return  redirect()->route('orders.index')->with('error', 'Driver appointed failed.');
+            return  redirect()->route('orders.index')->with('error', $e->getMessage());
         }
     }
 
@@ -86,6 +102,7 @@ class OrderController extends Controller
                     if ($driver) {
                         $driver->update(['has_order' => 0]);
                     }
+                    $order->update(['driver_appointed' => 0]);
                 }
                 // $order->update(['driver_appointed' => 0]);
             }
