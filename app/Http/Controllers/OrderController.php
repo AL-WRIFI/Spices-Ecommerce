@@ -15,6 +15,7 @@ use App\Models\Order;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -31,7 +32,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with(['user', 'driver', 'coupon'])->latest()->get();
-        $drivers = Driver::all();
+        $drivers = Driver::where('has_order', 0)->get();
         $pendingPaymentCount = Order::where('payment_status', 'pending')->count();
         $completedOrdersCount = Order::where('status', 'completed')->count();
         $refundedOrdersCount = Order::where('status', 'refunded')->count();
@@ -55,12 +56,19 @@ class OrderController extends Controller
 
     public function appointDriver(AppointDriverRequest $request, AppointDriverAction $appointDriverAction)
     {
-        $appointed = $appointDriverAction->handle(data: $request->validated());
-        if($appointed) {
-            redirect()->route('orders.index')->with('success', 'Driver appointed successfully.');
-        }
+        Log::info('appointDriver', [$request->validated()]);
+        try{
+            $appointed = $appointDriverAction->handle(data: $request->validated());
+            Log::info('appointDriver', [$appointed]);
+            if($appointed) {
+                return redirect()->route('orders.index')->with('success', 'Driver appointed successfully.');
+            }
+            return redirect()->route('orders.index')->with('success', 'Driver appointed successfully.');
 
-        return  redirect()->route('orders.index')->with('error', 'Driver appointed failed.');
+        } catch (Exception $e) {
+            Log::error("message", [$e->getMessage()]);
+            return  redirect()->route('orders.index')->with('error', 'Driver appointed failed.');
+        }
     }
 
     public function changeStatus(Request $request, Order $order)
@@ -72,6 +80,15 @@ class OrderController extends Controller
         try {
             $order = Order::findOrFail($order->id);
             $order->update(['status' => $validated['status']]);
+            if($validated['status'] == 'delivered' || $validated['status'] == 'completed' || $validated['status'] == 'refunded' || $validated['status'] == 'failed' || $validated['status'] == 'cancelled') {
+                if($order->driver_id) {
+                    $driver = Driver::find($order->driver_id);
+                    if ($driver) {
+                        $driver->update(['has_order' => 0]);
+                    }
+                }
+                // $order->update(['driver_appointed' => 0]);
+            }
             
             return redirect()->back()
                 ->with('toast', [

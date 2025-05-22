@@ -86,9 +86,9 @@
                    onclick="selectDriver(this)">
                 <div class="driver-main">
                   <div class="driver-avatar">
-                    <img src="{{ asset($driver->image) }}" alt="{{ $driver->name }}">
-                    <div class="driver-status {{ $driver->available ? 'available' : 'busy' }}">
-                      {{ $driver->available ? 'متاح' : 'مشغول' }}
+                    <img src="{{ $driver->image }}" alt="{{ $driver->name }}">
+                    <div class="driver-status {{ $driver->has_orders == 0 ? 'available' : 'busy' }}">
+                      {{ $driver->has_order == 0 ? 'متاح' : 'مشغول' }}
                     </div>
                   </div>
                   <div class="driver-info">
