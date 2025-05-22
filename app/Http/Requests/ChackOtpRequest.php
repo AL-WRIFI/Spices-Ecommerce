@@ -22,7 +22,7 @@ class ChackOtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => 'required|numeric|digits:9',
+            'phone' => 'required|numeric',
             'code' => 'required|numeric|digits:4',
             'device_token' => ['nullable'],
             'platform' => ['nullable', 'in:ios,android']

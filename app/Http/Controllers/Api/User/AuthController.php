@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         $sendOtpAction->handle(model:$user, OTPTypeEnum:OTPTypeEnum::LOGIN, expiredMinutes:5);
 
-        return $this->successResponse(msg:__('OTP Send Successfully'));
+        return $this->successResponse(msg:__('OTP Send Successfully') );
 
         // return $this->successResponse(data: [
         //     'token' => $user->createToken('user_token')->plainTextToken,
@@ -71,8 +71,8 @@ class AuthController extends Controller
         $data = $request->validated();
         $user = User::where('phone', $data['phone'])->first();
 
-        $OTPStatusEnum = $this->otpService->chackOtp($user, OTPTypeEnum::LOGIN, $data['code']);
-        if(!$OTPStatusEnum) return $this->errorResponse(msg:__('OTP is valid'), code:401);
+        // $OTPStatusEnum = $this->otpService->chackOtp($user, OTPTypeEnum::LOGIN, $data['code']);
+        // if(!$OTPStatusEnum) return $this->errorResponse(msg:__('OTP is valid'), code:401);
 
         return $this->successResponse(data:[
             'token' => $user->createToken('user_token')->plainTextToken,
