@@ -52,80 +52,7 @@
         </div>
     </div>
 </div> --}}
-
-
-<div class="modal fade" id="shareProject" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content modern-modal">
-        <form action="{{ route('orders.appointDriver') }}" method="POST">
-          @csrf
-          <input type="hidden" name="order_id" value="{{ $order->id }}">
-          
-          <!-- Modal Header -->
-          <div class="modal-header glass-effect">
-            <div class="header-content">
-              <h2 class="modal-title">🚚 تعيين سائق للتوصيل</h2>
-              <div class="search-container">
-                <input type="text" id="driverSearch" placeholder="ابحث عن سائق بالاسم أو الهاتف..." class="search-input">
-                <i class="fas fa-search search-icon"></i>
-              </div>
-            </div>
-            <button type="button" class="btn-close neo-close" data-bs-dismiss="modal"></button>
-          </div>
-  
-          <!-- Modal Body -->
-          <div class="modal-body compact-list">
-            <!-- Drivers List -->
-            <div class="driver-list-container">
-              @foreach ($drivers as $driver)
-              <div class="driver-item" 
-                   data-driver-id="{{ $driver->id }}"
-                   data-name="{{ $driver->name }}"
-                   data-phone="{{ $driver->phone }}"
-                   data-vehicle="{{ $driver->vehicle_type }}"
-                   onclick="selectDriver(this)">
-                <div class="driver-main">
-                  <div class="driver-avatar">
-                    <img src="{{ $driver->image }}" alt="{{ $driver->name }}">
-                    <div class="driver-status {{ $driver->has_orders == 0 ? 'available' : 'busy' }}">
-                      {{ $driver->has_order == 0 ? 'متاح' : 'مشغول' }}
-                    </div>
-                  </div>
-                  <div class="driver-info">
-                    <h3 class="driver-name">{{ $driver->name }}</h3>
-                    <div class="driver-details">
-                      <span class="vehicle-type"><i class="fas fa-motorcycle"></i> {{ $driver->vehicle_type }}</span>
-                      <span class="driver-phone"><i class="fas fa-phone"></i> {{ $driver->phone }}</span>
-                    </div>
-                    <div class="driver-rating">
-                      <div class="stars">★★★★☆</div>
-                      <span class="delivery-count">({{ $driver->completed_orders }} توصيلة)</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="selection-indicator">
-                  <div class="check-circle"></div>
-                </div>
-              </div>
-              @endforeach
-            </div>
-            
-            <input type="hidden" name="driver_id" id="selectedDriverId" required>
-          </div>
-  
-          <!-- Modal Footer -->
-          <div class="modal-footer glass-effect">
-            <button type="button" class="btn neo-btn cancel-btn" data-bs-dismiss="modal">إلغاء</button>
-            <button type="submit" class="btn neo-btn confirm-btn" disabled>
-              <span class="btn-text">تأكيد الاختيار</span>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
-  <style>
+<style>
   .modern-modal {
     border-radius: 15px;
     max-height: 90vh;
@@ -281,8 +208,73 @@
     cursor: not-allowed;
   }
   </style>
+
+ <div class="modal fade" id="shareProject" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modern-modal">
+          <form action="{{ route('orders.appointDriver') }}" method="POST">
+            @csrf
+            <input type="hidden" name="order_id" id="appoint_order_id">
+            <input type="hidden" name="driver_id" id="selectedDriverId" required>
+
+            <div class="modal-header glass-effect">
+              <div class="header-content">
+                <h2 class="modal-title">🚚 تعيين سائق للتوصيل</h2>
+                <div class="search-container">
+                  <input type="text" id="driverSearch" placeholder="ابحث عن سائق..." class="search-input">
+                  <i class="fas fa-search search-icon"></i>
+                </div>
+              </div>
+              <button type="button" class="btn-close neo-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body compact-list">
+              <div class="driver-list-container">
+                @foreach ($drivers as $driver)
+                <div class="driver-item" 
+                    data-driver-id="{{ $driver->id }}"
+                    data-name="{{ $driver->name }}"
+                    data-phone="{{ $driver->phone }}"
+                    data-vehicle="{{ $driver->vehicle_type }}"
+                    onclick="selectDriver(this)">
+                  <div class="driver-main">
+                    <div class="driver-avatar">
+                      <img src="{{ $driver->image }}" alt="{{ $driver->name }}">
+                      <div class="driver-status {{ $driver->has_orders == 0 ? 'available' : 'busy' }}">
+                        {{ $driver->has_orders == 0 ? 'متاح' : 'مشغول' }}
+                      </div>
+                    </div>
+                    <div class="driver-info">
+                      <h3>{{ $driver->name }}</h3>
+                      <div class="driver-details">
+                        <span><i class="fas fa-motorcycle"></i> {{ $driver->vehicle_type }}</span>
+                        <span><i class="fas fa-phone"></i> {{ $driver->phone }}</span>
+                      </div>
+                      <div class="driver-rating">
+                        <div class="stars">★★★★☆</div>
+                        <span class="delivery-count">({{ $driver->completed_orders }} توصيلة)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="selection-indicator"><div class="check-circle"></div></div>
+                </div>
+                @endforeach
+              </div>
+            </div>
+
+            <div class="modal-footer glass-effect">
+              <button type="button" class="btn neo-btn cancel-btn" data-bs-dismiss="modal">إلغاء</button>
+              <button type="submit" class="btn neo-btn confirm-btn" disabled>
+                <span class="btn-text">تأكيد الاختيار</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   
-  <script>
+  
+  {{-- <script>
   function selectDriver(item) {
     // إلغاء التحديد السابق
     document.querySelectorAll('.driver-item').forEach(d => d.classList.remove('selected'));
@@ -313,4 +305,4 @@
       item.style.display = matches ? 'flex' : 'none';
     });
   });
-  </script>
+  </script> --}}

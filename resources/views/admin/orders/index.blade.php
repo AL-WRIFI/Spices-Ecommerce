@@ -21,45 +21,59 @@
 @endsection
 
 @section('page-script')
-@vite([
-  // 'resources/assets/js/app-ecommerce-order-list.js'
-])
+@vite([])
 
 <script>
-$('#shareProject').on('show.bs.modal', function (event) {
-    const button = $(event.relatedTarget); // Button that triggered the modal
-    const orderId = button.data('order-id'); // Extract info from data-* attributes
-    $(this).find('input[name="order_id"]').val(orderId);
-});
-</script>
-<script>
+  // تغيير الحالة
   const changeStatusModal = document.getElementById('changeStatusModal');
   const changeStatusForm = document.getElementById('changeStatusForm');
-
   changeStatusModal.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
     const orderId = button.getAttribute('data-order-id');
     const orderStatus = button.getAttribute('data-order-status');
-
-    const select = document.getElementById('modal_order_status');
-    select.value = orderStatus;
-
-    // ✅ هنا الأهم:
+    document.getElementById('modal_order_status').value = orderStatus;
     changeStatusForm.action = `/orders/changeStatus/${orderId}`;
   });
+
+  // تعيين سائق
+  const appointModal = document.getElementById('shareProject');
+  appointModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const orderId = button.getAttribute('data-order-id');
+    document.getElementById('appoint_order_id').value = orderId;
+    document.getElementById('selectedDriverId').value = '';
+    document.querySelector('.confirm-btn').disabled = true;
+    document.querySelectorAll('.driver-item').forEach(d => d.classList.remove('selected'));
+    document.getElementById('driverSearch').value = '';
+    document.querySelectorAll('.driver-item').forEach(item => item.style.display = 'flex');
+  });
+
+  function selectDriver(item) {
+    document.querySelectorAll('.driver-item').forEach(d => d.classList.remove('selected'));
+    item.classList.add('selected');
+    document.querySelector('.confirm-btn').disabled = false;
+    document.getElementById('selectedDriverId').value = item.dataset.driverId;
+  }
+
+  document.getElementById('driverSearch').addEventListener('input', function (e) {
+    const searchTerm = e.target.value.toLowerCase();
+    document.querySelectorAll('.driver-item').forEach(item => {
+      const name = item.dataset.name.toLowerCase();
+      const phone = item.dataset.phone;
+      const vehicle = item.dataset.vehicle.toLowerCase();
+      const matches = name.includes(searchTerm) || phone.includes(searchTerm) || vehicle.includes(searchTerm);
+      item.style.display = matches ? 'flex' : 'none';
+    });
+  });
 </script>
-
-
 @endsection
 
 @section('content')
-<!-- Order List Widget -->
-
+<!-- الإحصائيات -->
 <div class="card mb-6">
   <div class="card-widget-separator-wrapper">
     <div class="card-body card-widget-separator">
       <div class="row gy-4 gy-sm-1">
-        <!-- Pending Payment -->
         <div class="col-sm-6 col-lg-3">
           <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
             <div>
@@ -68,14 +82,12 @@ $('#shareProject').on('show.bs.modal', function (event) {
             </div>
             <span class="avatar me-sm-6">
               <span class="avatar-initial bg-label-secondary rounded text-heading">
-                <i class="ti-26px ti ti-calendar-stats text-heading"></i>
+                <i class="ti ti-calendar-stats"></i>
               </span>
             </span>
           </div>
-          <hr class="d-none d-sm-block d-lg-none me-6">
         </div>
 
-        <!-- Completed Orders -->
         <div class="col-sm-6 col-lg-3">
           <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-4 pb-sm-0">
             <div>
@@ -83,13 +95,11 @@ $('#shareProject').on('show.bs.modal', function (event) {
               <p class="mb-0">{{ __('Completed') }}</p>
             </div>
             <span class="avatar p-2 me-lg-6">
-              <span class="avatar-initial bg-label-secondary rounded"><i class="ti-26px ti ti-checks text-heading"></i></span>
+              <span class="avatar-initial bg-label-secondary rounded"><i class="ti ti-checks"></i></span>
             </span>
           </div>
-          <hr class="d-none d-sm-block d-lg-none">
         </div>
 
-        <!-- Refunded Orders -->
         <div class="col-sm-6 col-lg-3">
           <div class="d-flex justify-content-between align-items-start border-end pb-4 pb-sm-0 card-widget-3">
             <div>
@@ -97,12 +107,11 @@ $('#shareProject').on('show.bs.modal', function (event) {
               <p class="mb-0">{{ __('Refunded') }}</p>
             </div>
             <span class="avatar p-2 me-sm-6">
-              <span class="avatar-initial bg-label-secondary rounded"><i class="ti-26px ti ti-wallet text-heading"></i></span>
+              <span class="avatar-initial bg-label-secondary rounded"><i class="ti ti-wallet"></i></span>
             </span>
           </div>
         </div>
 
-        <!-- Failed Orders -->
         <div class="col-sm-6 col-lg-3">
           <div class="d-flex justify-content-between align-items-start">
             <div>
@@ -110,7 +119,7 @@ $('#shareProject').on('show.bs.modal', function (event) {
               <p class="mb-0">{{ __('Failed') }}</p>
             </div>
             <span class="avatar p-2">
-              <span class="avatar-initial bg-label-secondary rounded"><i class="ti-26px ti ti-alert-octagon text-heading"></i></span>
+              <span class="avatar-initial bg-label-secondary rounded"><i class="ti ti-alert-octagon"></i></span>
             </span>
           </div>
         </div>
@@ -119,7 +128,7 @@ $('#shareProject').on('show.bs.modal', function (event) {
   </div>
 </div>
 
-<!-- Order List Table -->
+<!-- جدول الطلبات -->
 <div class="card">
   <div class="card-datatable table-responsive">
     <table class="datatables-order table border-top">
@@ -144,105 +153,82 @@ $('#shareProject').on('show.bs.modal', function (event) {
       </thead>
       <tbody>
         @foreach ($orders as $order)
-          <tr>
-            <td></td>
-            <td>{{ $order->id }}</td>
-            <td>{{ $order->created_at->format('d M Y') }}</td>
-            <td>{{ $order->user->name }}</td>
-            <td>${{ number_format($order->subtotal, 2) }}</td>
-            <td>${{ number_format($order->discount_amount, 2) }}</td>
-            <td>{{ $order->coupon ? $order->coupon->code : 'N/A' }}</td>
-            <td>${{ number_format($order->delivery_amount, 2) }}</td>
-            <td>${{ number_format($order->total_amount, 2) }}</td>
-            <td>{{ $order->payment_method }}</td>
-            <td>
-              @if ($order->payment_status === 'paid')
-                <span class="badge bg-label-success">{{ __('Paid') }}</span>
-              @else
-                <span class="badge bg-label-danger">{{ __('Pending') }}</span>
-              @endif
-            </td>
-            
-            @php $status = OrderStatusEnum::tryFrom($order->status); @endphp
-
-            <td>
-              <button type="button"
-                  class="btn btn-sm btn-outline-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#changeStatusModal"
-                  data-order-id="{{ $order->id }}"
-                  data-order-status="{{ $order->status }}">
-            <span class="badge bg-label-primary">
-              {{ $order->status }}
+        <tr>
+          <td></td>
+          <td>{{ $order->id }}</td>
+          <td>{{ $order->created_at->format('d M Y') }}</td>
+          <td>{{ $order->user->name }}</td>
+          <td>${{ number_format($order->subtotal, 2) }}</td>
+          <td>${{ number_format($order->discount_amount, 2) }}</td>
+          <td>{{ $order->coupon->code ?? 'N/A' }}</td>
+          <td>${{ number_format($order->delivery_amount, 2) }}</td>
+          <td>${{ number_format($order->total_amount, 2) }}</td>
+          <td>{{ $order->payment_method }}</td>
+          <td>
+            @if ($order->payment_status === 'paid')
+              <span class="badge bg-label-success">{{ __('Paid') }}</span>
+            @else
+              <span class="badge bg-label-danger">{{ __('Pending') }}</span>
+            @endif
+          </td>
+          <td>
+            <button type="button"
+                    class="btn btn-sm btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#changeStatusModal"
+                    data-order-id="{{ $order->id }}"
+                    data-order-status="{{ $order->status }}">
+              <span class="badge bg-label-primary">{{ $order->status }}</span>
+            </button>
+          </td>
+          <td>
+            <span class="badge {{ $order->driver_appointed ? 'bg-label-success' : 'bg-label-danger' }}">
+              {{ $order->driver_appointed ? __('Yes') : __('No') }}
             </span>
-          </button>
-
-            </td>
-
-
-            <td>
-              @if ($order->driver_appointed)
-                <span class="badge bg-label-success">{{ __('Yes') }}</span>
-              @else
-                <span class="badge bg-label-danger">{{ __('No') }}</span>
-              @endif
-            </td>
-            <td>{{ $order->driver_id ? $order->driver->name : 'N/A' }}</td>
-            <td>
-              <div class="d-inline-block text-nowrap">
-                <button class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#shareProject" data-order-id="{{ $order->id }}">
-                  <i class="ti ti-edit" onclick=""></i>
-                </button>
-                <a href="{{ route('orders.show', $order->id)}}" class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill"><i class="ti ti-eye ti-md"></i></a>
-                {{-- <a href="{{ route('orders.appointDriver.form')}}" class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light"><i class="ti ti-edit"></i></a> --}}
-                {{-- <button class="btn btn-sm btn-icon btn-text-secondary rounded-pill waves-effect waves-light dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                  <i class="ti ti-dots-vertical ti-md"></i>
-                </button> --}}
-                {{-- <div class="dropdown-menu dropdown-menu-end m-0">
-                  <a href="{{ route('orders.show', $order->id)}}" class="dropdown-item">{{ __('View') }}</a>
-                  <a href="javascript:0;" class="dropdown-item">{{ __('Cancel') }}</a>
-                </div> --}}
-              </div>
-            </td>
-          </tr>
+          </td>
+          <td>{{ $order->driver->name ?? 'N/A' }}</td>
+          <td>
+            <div class="d-inline-block text-nowrap">
+              <button class="btn btn-icon btn-text-secondary rounded-pill waves-effect waves-light"
+                      data-bs-toggle="modal"
+                      data-bs-target="#shareProject"
+                      data-order-id="{{ $order->id }}">
+                <i class="ti ti-edit"></i>
+              </button>
+              <a href="{{ route('orders.show', $order->id)}}" class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill">
+                <i class="ti ti-eye ti-md"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
         @endforeach
       </tbody>
     </table>
 
-
-    <!-- Change Order Status Modal -->
-    <!-- Modal -->
+    <!-- مودال تغيير الحالة -->
     <div class="modal fade" id="changeStatusModal" tabindex="-1" aria-labelledby="changeStatusModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <form id="changeStatusForm" method="POST" class="modal-content">
           @csrf
           <div class="modal-header">
-            <h5 class="modal-title" id="changeStatusModalLabel">{{ __('Change Order Status') }}</h5>
+            <h5 class="modal-title">{{ __('Change Order Status') }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
           </div>
           <div class="modal-body">
-            <input type="hidden" name="_method" value="POST">
-            <div class="mb-3">
-              <label for="order_status" class="form-label">{{ __('Select Status') }}</label>
-              <select class="form-select" name="status" id="modal_order_status" required>
-                @php
-                  $statuses = [
-                    'pending' => __('Pending'),
-                    'processing' => __('Processing'),
-                    'shipped' => __('Shipped'),
-                    'on_way' => __('On Way'),
-                    'delivered' => __('Delivered'),
-                    'cancelled' => __('Cancelled'),
-                    'refunded' => __('Refunded'),
-                    'failed' => __('Failed'),
-                  ];
-                @endphp
-
-                @foreach ($statuses as $key => $label)
-                  <option value="{{ $key }}">{{ $label }}</option>
-                @endforeach
-              </select>
-            </div>
+            <select class="form-select" name="status" id="modal_order_status" required>
+              @foreach ([
+                'pending' => __('Pending'),
+                'processing' => __('Processing'),
+                'shipped' => __('Shipped'),
+                'on_way' => __('On Way'),
+                'delivered' => __('Delivered'),
+                'cancelled' => __('Cancelled'),
+                'refunded' => __('Refunded'),
+                'failed' => __('Failed'),
+              ] as $key => $label)
+                <option value="{{ $key }}">{{ $label }}</option>
+              @endforeach
+            </select>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
@@ -252,12 +238,9 @@ $('#shareProject').on('show.bs.modal', function (event) {
       </div>
     </div>
 
+    <!-- مودال تعيين السائق -->
+  @include('admin.orders.appoint-driver', ['drivers' => $drivers])
 
   </div>
 </div>
-
-@include('admin/orders/appoint-driver')
-
 @endsection
-
-
